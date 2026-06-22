@@ -1,533 +1,606 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const BLUE = "#5b9bd5";
-const BLUE_LIGHT = "#93c5fd";
-const MUTED = "#888888";
-const DIM = "#2a2a2a";
-const TEXT = "#e8e6df";
-const BG = "#0d0d0d";
-const CARD_BG = "#111111";
-const CARD_FEATURED = "#0f1a24";
+/* ── Design tokens ─────────────────────────────────────── */
+const BG        = "#0d0d0d";
+const BG_CARD   = "#131313";
+const BG_HOVER  = "#191919";
+const BORDER    = "#222222";
+const BORDER_HI = "#2e2e2e";
+const TEXT      = "#c8c8c8";
+const TEXT_DIM  = "#606060";
+const TEXT_MUTE = "#3a3a3a";
+const ACCENT    = "#4ade80";
+const ACCENT_DIM= "#1f4a2f";
+const WHITE     = "#e8e8e8";
+const MONO      = "'Courier New', Courier, monospace";
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const logos: Record<string, string> = {
-  spendbase: `${base}/logos/spendbase.svg`,
-  cinobo: `${base}/logos/cinobo.jpeg`,
-  dreamclass: `${base}/logos/dreamclass.jpeg`,
-  layer: `${base}/logos/layer.svg`,
-  epignosis: `${base}/logos/epignosis.svg`,
-  flexdesk: `${base}/logos/flexdesk.png`,
-};
+/* ── Shared hover card helper ───────────────────────────── */
+function useHover() {
+  const [hovered, setHovered] = useState(false);
+  return { hovered, onMouseEnter: () => setHovered(true), onMouseLeave: () => setHovered(false) };
+}
 
-const companies = [
-  {
-    id: "spendbase",
-    name: "Spendbase",
-    role: "Customer & Product Operations",
-    period: "2025 — PRESENT",
-    url: "https://spendbase.co",
-    featured: true,
-    logoBg: "#0a1628",
-    accent: BLUE,
-  },
-  {
-    id: "cinobo",
-    name: "Cinobo",
-    role: "Operational Excellence",
-    period: "2025",
-    url: "https://cinobo.com",
-    featured: false,
-    logoBg: "#f97316",
-    accent: "#f97316",
-  },
-  {
-    id: "dreamclass",
-    name: "Dreamclass",
-    role: "CS & Customer Support Director",
-    period: "2023 — 2024",
-    url: "https://dreamclass.io",
-    featured: false,
-    logoBg: "#1a4a3a",
-    accent: "#34a87e",
-  },
-  {
-    id: "layer",
-    name: "Layer",
-    role: "CS & Operations Lead",
-    period: "2022 — 2023",
-    url: "https://www.layerlicensing.com/",
-    featured: false,
-    logoBg: "#0d0d0d",
-    accent: "#9cff94",
-  },
-  {
-    id: "epignosis",
-    name: "Epignosis",
-    role: "Customer Success Operations",
-    period: "2019 — 2022",
-    url: "https://www.epignosishq.com/",
-    featured: false,
-    logoBg: "#1a0f06",
-    accent: "#f79421",
-  },
-  {
-    id: "flexdesk",
-    name: "Flexdesk.gr",
-    role: "Co-Founder",
-    period: "",
-    url: "https://flexdesk.gr",
-    featured: false,
-    logoBg: "#ffffff",
-    accent: "#a78bfa",
-  },
-];
-
-const systems = [
-  {
-    id: "ai",
-    name: "AI SUPPORT SYSTEM",
-    tag: "ai · automation",
-    wide: true,
-    featured: false,
-    url: null,
-    items: [
-      "knowledge retrieval",
-      "escalation routing",
-      "onboarding logic",
-      "support automation",
-      "response systems",
-    ],
-  },
-  {
-    id: "recruiting",
-    name: "RECRUITING OS",
-    tag: "notion · pipelines",
-    wide: false,
-    featured: false,
-    url: null,
-    items: [
-      "candidate pipelines",
-      "scoring systems",
-      "automated handoffs",
-      "hiring dashboards",
-      "interview ops",
-    ],
-  },
-  {
-    id: "customer-ops",
-    name: "CUSTOMER OPS INFRASTRUCTURE",
-    tag: "cx · reporting",
-    wide: false,
-    featured: false,
-    url: null,
-    items: [
-      "lifecycle workflows",
-      "reporting dashboards",
-      "feedback loops",
-      "team handoff systems",
-      "process docs",
-    ],
-  },
-];
-
-function SectionButton({ label, sub }: { label: string; sub?: string }) {
+/* ── Section tag ────────────────────────────────────────── */
+function SectionTag({ label }: { label: string }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-      <div
-        style={{
-          backgroundColor: BLUE,
-          color: BG,
-          fontSize: 11,
-          fontWeight: 700,
-          letterSpacing: "0.16em",
-          padding: "7px 18px",
-          display: "inline-block",
-          fontFamily: "inherit",
-        }}
-      >
-        {label}
-      </div>
-      {sub && (
-        <span
+    <div style={{
+      display: "inline-block",
+      border: `1px solid ${ACCENT}`,
+      color: ACCENT,
+      fontSize: 11,
+      letterSpacing: "0.12em",
+      padding: "4px 12px",
+      textTransform: "uppercase" as const,
+      marginBottom: 48,
+      fontFamily: MONO,
+    }}>{label}</div>
+  );
+}
+
+/* ── Navigation ─────────────────────────────────────────── */
+function Nav() {
+  const links = ["Philosophy", "Systems", "Method", "Proof", "Notes", "About", "Contact"];
+  return (
+    <nav style={{
+      position: "fixed",
+      top: 0, left: 0, right: 0,
+      zIndex: 100,
+      background: BG,
+      borderBottom: `1px solid ${BORDER}`,
+      padding: "0 48px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      height: 52,
+      fontFamily: MONO,
+    }}>
+      <span style={{ fontSize: 13, letterSpacing: "0.18em", color: WHITE }}>METHODIKA</span>
+      <ul style={{ display: "flex", gap: 32, listStyle: "none", fontSize: 11, letterSpacing: "0.12em", color: TEXT_DIM, margin: 0, padding: 0 }}>
+        {links.map(l => (
+          <li key={l}>
+            <NavLink href={`#${l.toLowerCase()}`} label={l} />
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
+function NavLink({ href, label }: { href: string; label: string }) {
+  const { hovered, ...handlers } = useHover();
+  return (
+    <a href={href} {...handlers} style={{ color: hovered ? ACCENT : TEXT_DIM, textDecoration: "none", fontFamily: MONO, fontSize: 11, letterSpacing: "0.12em" }}>
+      {label}
+    </a>
+  );
+}
+
+/* ── Hero ───────────────────────────────────────────────── */
+function Hero() {
+  const { hovered, ...handlers } = useHover();
+  return (
+    <div id="hero" style={{
+      minHeight: "calc(100vh - 52px)",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      padding: "96px 48px",
+      borderBottom: `1px solid ${BORDER}`,
+      fontFamily: MONO,
+    }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", width: "100%" }}>
+        <p style={{ fontSize: 11, letterSpacing: "0.18em", color: TEXT_DIM, textTransform: "uppercase" as const, marginBottom: 24 }}>
+          // Operational design for growing companies.
+        </p>
+        <h1 style={{ fontSize: "clamp(42px, 7vw, 88px)", letterSpacing: "0.14em", color: WHITE, lineHeight: 1, fontWeight: "normal", marginBottom: 32, fontFamily: MONO }}>
+          METHODIKA
+        </h1>
+        <p style={{ fontSize: 14, color: TEXT, maxWidth: 560, lineHeight: 1.85, marginBottom: 16 }}>
+          I help startups eliminate operational chaos, design scalable workflows, and implement practical AI where it actually helps.
+        </p>
+        <p style={{ fontSize: 12, color: TEXT_DIM, maxWidth: 560, marginBottom: 48 }}>
+          Built through experience across Customer Success, Operations, Support, Recruiting, and Product teams.
+        </p>
+        <a
+          href="#contact"
+          {...handlers}
           style={{
-            fontSize: 11,
-            color: MUTED,
-            letterSpacing: "0.06em",
-            fontFamily: "inherit",
+            display: "inline-block",
+            border: `1px solid ${ACCENT}`,
+            color: hovered ? BG : ACCENT,
+            background: hovered ? ACCENT : "transparent",
+            fontFamily: MONO,
+            fontSize: 12,
+            letterSpacing: "0.12em",
+            padding: "12px 28px",
+            textTransform: "uppercase" as const,
+            textDecoration: "none",
+            transition: "background 0.2s, color 0.2s",
           }}
         >
-          {sub}
-        </span>
+          [ Book a Conversation ]
+        </a>
+        <span style={{ display: "block", marginTop: 64, fontSize: 18, color: TEXT_MUTE, animation: "bounce 2s infinite" }}>↓</span>
+      </div>
+      <style>{`@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }`}</style>
+    </div>
+  );
+}
+
+/* ── Philosophy ─────────────────────────────────────────── */
+function Philosophy() {
+  return (
+    <section id="philosophy" style={{ padding: "96px 48px", borderBottom: `1px solid ${BORDER}`, maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
+      <SectionTag label="Philosophy" />
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64 }}>
+        <div>
+          <h2 style={{ fontSize: "clamp(22px, 3vw, 34px)", color: WHITE, letterSpacing: "0.06em", fontWeight: "normal", marginBottom: 32, lineHeight: 1.3 }}>
+            Why METHODIKA?
+          </h2>
+          <p style={{ color: TEXT, marginBottom: 18 }}>Growing companies rarely struggle because people aren't working hard enough.</p>
+          <p style={{ color: TEXT, marginBottom: 18 }}>They struggle because:</p>
+          <ul style={{ listStyle: "none", margin: "0 0 24px 0", padding: 0 }}>
+            {["Information is scattered", "Ownership is unclear", "Processes live in people's heads", "Repetitive work consumes valuable time"].map(item => (
+              <li key={item} style={{ padding: "6px 0 6px 16px", color: TEXT, position: "relative" as const }}>
+                <span style={{ position: "absolute" as const, left: 0, color: ACCENT }}>•</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+          <div style={{ borderLeft: `2px solid ${ACCENT}`, paddingLeft: 20, margin: "32px 0" }}>
+            <span style={{ fontSize: 20, color: WHITE, letterSpacing: "0.1em", display: "block", marginBottom: 6 }}>μεθοδικά</span>
+            <span style={{ fontSize: 12, color: TEXT_DIM, letterSpacing: "0.08em" }}>METHODIKA — from the Greek.</span>
+          </div>
+          <p style={{ fontSize: 13, color: TEXT_DIM, marginBottom: 8 }}>Working methodically.</p>
+          <p style={{ fontSize: 13, color: TEXT_DIM, marginBottom: 8 }}>Building systems intentionally.</p>
+          <p style={{ fontSize: 13, color: TEXT_DIM }}>Creating clarity where complexity starts to appear.</p>
+        </div>
+        <div>
+          <div style={{ marginTop: 56 }}>
+            {["The goal is not more tools.", "The goal is not more meetings.", "The goal is not more automation."].map(line => (
+              <p key={line} style={{ color: TEXT_MUTE, fontSize: 13, marginBottom: 8, textDecoration: "line-through" }}>{line}</p>
+            ))}
+            <p style={{ marginTop: 24, fontSize: 15, color: WHITE, letterSpacing: "0.04em" }}>The goal is better ways of working.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ── Fix card ───────────────────────────────────────────── */
+function FixCard({ num, title, body, solution }: { num: string; title: string; body: string[]; solution: string }) {
+  const { hovered, ...handlers } = useHover();
+  return (
+    <div {...handlers} style={{ background: hovered ? BG_HOVER : BG_CARD, padding: "48px 40px", transition: "background 0.2s", fontFamily: MONO }}>
+      <p style={{ fontSize: 11, color: TEXT_MUTE, letterSpacing: "0.14em", marginBottom: 20 }}>{num}</p>
+      <h3 style={{ fontSize: 17, color: WHITE, letterSpacing: "0.06em", fontWeight: "normal", marginBottom: 20, lineHeight: 1.3 }}>{title}</h3>
+      <div style={{ marginBottom: 20 }}>
+        {body.map((line, i) => <p key={i} style={{ color: TEXT_DIM, fontSize: 13, marginBottom: 10, lineHeight: 1.8 }}>{line}</p>)}
+      </div>
+      <div style={{ marginTop: 20, paddingTop: 20, borderTop: `1px solid ${BORDER}`, fontSize: 13, color: TEXT }}>{solution}</div>
+    </div>
+  );
+}
+
+function WhatIFix() {
+  const cards = [
+    {
+      num: "01", title: "Hiring is chaotic",
+      body: ["Candidates disappear.", "Feedback gets lost.", "Hiring decisions become subjective.", "Nobody knows what happens next."],
+      solution: "I design recruiting systems that create visibility, consistency, and accountability.",
+    },
+    {
+      num: "02", title: "Customer operations are fragmented",
+      body: ["Support, onboarding, customer success, and product often operate in separate worlds.", "Customers don't experience departments.", "They experience one company."],
+      solution: "I create operational infrastructure that connects customer journeys.",
+    },
+    {
+      num: "03", title: "Teams are drowning in manual work",
+      body: ["Information gets copied between systems.", "The same questions get answered repeatedly.", "People spend time maintaining processes instead of improving them."],
+      solution: "I identify repetitive work and design practical AI-powered workflows that reduce operational load.",
+    },
+    {
+      num: "04", title: "Knowledge is trapped",
+      body: ["Processes exist.", "Documentation doesn't.", "Teams depend on specific people to get work done."],
+      solution: "I build knowledge systems that make information accessible, searchable, and scalable.",
+    },
+  ];
+  return (
+    <section id="fix" style={{ padding: "96px 48px", borderBottom: `1px solid ${BORDER}`, maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
+      <SectionTag label="What I Fix" />
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: BORDER, border: `1px solid ${BORDER}` }}>
+        {cards.map(c => <FixCard key={c.num} {...c} />)}
+      </div>
+    </section>
+  );
+}
+
+/* ── Systems ────────────────────────────────────────────── */
+function SysCard({ tag, title, context, includes, tools }: { tag: string; title: string; context?: string; includes: string[]; tools?: string[] }) {
+  const { hovered, ...handlers } = useHover();
+  return (
+    <div {...handlers} style={{ background: hovered ? BG_HOVER : BG_CARD, padding: "40px 32px", transition: "background 0.2s", fontFamily: MONO }}>
+      <p style={{ fontSize: 10, letterSpacing: "0.14em", color: ACCENT, textTransform: "uppercase" as const, marginBottom: 16 }}>{tag}</p>
+      <h3 style={{ fontSize: 15, color: WHITE, letterSpacing: "0.05em", fontWeight: "normal", marginBottom: 8 }}>{title}</h3>
+      {context && <p style={{ fontSize: 12, color: TEXT_DIM, marginBottom: 20 }}>{context}</p>}
+      <p style={{ fontSize: 10, letterSpacing: "0.1em", color: TEXT_MUTE, textTransform: "uppercase" as const, marginBottom: 10 }}>Includes</p>
+      <ul style={{ listStyle: "none", padding: 0, margin: "0 0 20px 0" }}>
+        {includes.map(item => (
+          <li key={item} style={{ fontSize: 12, color: TEXT_DIM, padding: "3px 0 3px 14px", position: "relative" as const }}>
+            <span style={{ position: "absolute" as const, left: 0, color: TEXT_MUTE, fontSize: 10 }}>→</span>
+            {item}
+          </li>
+        ))}
+      </ul>
+      {tools && (
+        <div style={{ marginTop: 16, paddingTop: 16, borderTop: `1px solid ${BORDER}` }}>
+          <p style={{ fontSize: 10, color: TEXT_MUTE, letterSpacing: "0.1em", textTransform: "uppercase" as const, marginBottom: 8 }}>Tools</p>
+          <div style={{ display: "flex", flexWrap: "wrap" as const, gap: 6 }}>
+            {tools.map(t => (
+              <span key={t} style={{ fontSize: 10, letterSpacing: "0.08em", border: `1px solid ${BORDER_HI}`, color: TEXT_DIM, padding: "2px 8px" }}>{t}</span>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );
 }
 
-function Divider() {
+function Systems() {
   return (
-    <div
-      style={{
-        height: 1,
-        backgroundColor: DIM,
-        width: "100%",
-      }}
-    />
+    <section id="systems" style={{ padding: "96px 48px", borderBottom: `1px solid ${BORDER}`, maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
+      <SectionTag label="Systems" />
+      <p style={{ fontSize: 11, letterSpacing: "0.18em", color: TEXT_DIM, textTransform: "uppercase" as const, marginBottom: 4 }}>Systems in Production</p>
+      <h2 style={{ fontSize: "clamp(24px, 3.5vw, 42px)", color: WHITE, letterSpacing: "0.1em", fontWeight: "normal", marginBottom: 48, lineHeight: 1.2 }}>
+        A selection of operational systems designed across startups and growing companies.
+      </h2>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: BORDER, border: `1px solid ${BORDER}` }}>
+        <SysCard
+          tag="Recruiting OS" title="Recruiting OS"
+          context="Built for multiple startups."
+          includes={["Candidate pipelines", "Interview scorecards", "Hiring dashboards", "Evaluation frameworks", "Decision workflows", "Recruiting documentation"]}
+          tools={["Notion", "Forms", "Automations"]}
+        />
+        <SysCard
+          tag="Customer Ops" title="Customer Operations Infrastructure"
+          includes={["Customer lifecycle design", "Onboarding workflows", "Escalation systems", "Success processes", "Support operations", "Internal playbooks"]}
+        />
+        <SysCard
+          tag="Knowledge Mgmt" title="Knowledge Management System"
+          includes={["Team documentation", "SOP libraries", "Internal wikis", "Employee onboarding hubs", "Process repositories"]}
+        />
+        <SysCard
+          tag="AI Support" title="AI Support System"
+          includes={["Knowledge retrieval", "AI-assisted support", "Escalation routing", "Workflow automation", "Internal enablement systems"]}
+        />
+        <SysCard
+          tag="Visibility" title="Visibility & Reporting Systems"
+          includes={["KPI dashboards", "Recruiting analytics", "Customer reporting", "Team performance visibility", "Operational reporting frameworks"]}
+        />
+      </div>
+    </section>
   );
 }
 
-function CompanyCard({ c }: { c: typeof companies[0] }) {
-  const [hovered, setHovered] = useState(false);
-  const [imgErr, setImgErr] = useState(false);
-
+/* ── Method ─────────────────────────────────────────────── */
+function MethodStep({ num, title, lines }: { num: string; title: string; lines: string[] }) {
+  const { hovered, ...handlers } = useHover();
   return (
-    <a
-      href={c.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 16,
-        backgroundColor: hovered ? `${c.accent}11` : CARD_BG,
-        border: `1px solid ${hovered ? c.accent : c.featured ? `${c.accent}88` : "#2a2a2a"}`,
-        borderRadius: 8,
-        padding: "16px 20px",
-        textDecoration: "none",
-        transition: "border-color 0.2s, background-color 0.2s",
-        cursor: "pointer",
-        position: "relative",
-        overflow: "hidden",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div style={{
-        position: "absolute",
-        left: 0,
-        top: 0,
-        bottom: 0,
-        width: 3,
-        backgroundColor: c.accent,
-        borderRadius: "8px 0 0 8px",
-        opacity: hovered ? 1 : 0.5,
-        transition: "opacity 0.2s",
-      }} />
-
-      <div style={{
-        width: 44,
-        height: 44,
-        backgroundColor: c.logoBg,
-        borderRadius: 6,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        flexShrink: 0,
-        overflow: "hidden",
-        padding: 5,
-        border: `1px solid #222222`,
-      }}>
-        {imgErr ? (
-          <span style={{ fontSize: 16, fontWeight: 700, color: c.accent, fontFamily: "inherit" }}>
-            {c.name[0]}
-          </span>
-        ) : (
-          <img
-            src={logos[c.id]}
-            alt={c.name}
-            onError={() => setImgErr(true)}
-            style={{ width: "100%", height: "100%", objectFit: "contain" }}
-          />
-        )}
-      </div>
-
-      <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1, minWidth: 0 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: TEXT, fontFamily: "inherit", letterSpacing: "-0.01em" }}>
-            {c.name}
-          </span>
-        </div>
-        <span style={{ fontSize: 10, color: MUTED, fontFamily: "inherit", lineHeight: 1.4 }}>
-          {c.role}
-        </span>
-      </div>
-    </a>
-  );
-}
-
-function SystemCard({ s }: { s: typeof systems[0] }) {
-  const [hovered, setHovered] = useState(false);
-  const borderColor = s.featured ? BLUE : hovered ? BLUE : DIM;
-  const bg = s.featured ? (hovered ? "#101e2e" : CARD_FEATURED) : CARD_BG;
-
-  const inner = (
-    <>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{ fontSize: 10, letterSpacing: "0.12em", color: BLUE_LIGHT, fontFamily: "inherit" }}>
-          [ {s.name} ]
-        </span>
-        <span
-          style={{
-            fontSize: 9,
-            color: s.featured ? BG : MUTED,
-            backgroundColor: s.featured ? BLUE : "transparent",
-            letterSpacing: "0.08em",
-            padding: s.featured ? "2px 7px" : undefined,
-            fontWeight: s.featured ? 700 : undefined,
-            fontFamily: "inherit",
-          }}
-        >
-          {s.tag}
-        </span>
-      </div>
-      <div
-        style={{
-          borderTop: `1px solid ${DIM}`,
-          paddingTop: 10,
-          display: s.wide ? "grid" : "flex",
-          gridTemplateColumns: s.wide ? "1fr 1fr" : undefined,
-          flexDirection: s.wide ? undefined : "column",
-          gap: s.wide ? "5px 28px" : 4,
-        }}
-      >
-        {s.items.map((item, i) => (
-          <div key={i} style={{ display: "flex", gap: 5, fontSize: 10, color: "#aaaaaa", lineHeight: 1.6, fontFamily: "inherit" }}>
-            <span style={{ color: s.featured ? BLUE_LIGHT : MUTED, flexShrink: 0 }}>-</span>
-            <span>{item}</span>
-          </div>
-        ))}
-      </div>
-    </>
-  );
-
-  const sharedStyle = {
-    display: "flex" as const,
-    flexDirection: "column" as const,
-    gap: 10,
-    border: `1px solid ${borderColor}`,
-    backgroundColor: bg,
-    padding: "16px 18px",
-    gridColumn: s.wide ? ("span 2" as any) : "span 1",
-    transition: "border-color 0.2s, background-color 0.2s",
-    textDecoration: "none" as const,
-    cursor: "pointer" as const,
-  };
-
-  return s.url ? (
-    <a
-      href={s.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={sharedStyle}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {inner}
-    </a>
-  ) : (
-    <div
-      style={sharedStyle}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {inner}
+    <div {...handlers} style={{ background: hovered ? BG_HOVER : BG_CARD, padding: "40px 28px", transition: "background 0.2s", fontFamily: MONO }}>
+      <p style={{ fontSize: 11, color: ACCENT, letterSpacing: "0.14em", marginBottom: 20 }}>{num}</p>
+      <h3 style={{ fontSize: 14, color: WHITE, letterSpacing: "0.05em", fontWeight: "normal", marginBottom: 16, lineHeight: 1.4 }}>{title}</h3>
+      {lines.map((l, i) => <p key={i} style={{ fontSize: 12, color: TEXT_DIM, marginBottom: 6, lineHeight: 1.8 }}>{l}</p>)}
     </div>
   );
 }
 
-function LetsSpeak() {
-  const [hovered, setHovered] = useState(false);
-
+function Method() {
+  const steps = [
+    { num: "01", title: "Understand the System", lines: ["Before changing anything, understand how work actually happens.", "Observe.", "Listen.", "Map the reality.", "Not the process diagram.", "The real process."] },
+    { num: "02", title: "Find the Bottlenecks", lines: ["Identify friction.", "Duplication.", "Unclear ownership.", "Manual work.", "Dependencies.", "The goal is clarity."] },
+    { num: "03", title: "Design the Workflow", lines: ["Create systems people will actually use.", "Simple systems scale.", "Complex systems get ignored."] },
+    { num: "04", title: "Document the Process", lines: ["If it isn't documented, it doesn't scale.", "Documentation is not administration.", "Documentation is infrastructure."] },
+    { num: "05", title: "Automate Intentionally", lines: ["Automation is the last step.", "Not the first.", "A broken workflow automated is still a broken workflow.", "First understand.", "Then simplify.", "Then automate."] },
+  ];
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 16, paddingBottom: 56 }}>
+    <section id="method" style={{ padding: "96px 48px", borderBottom: `1px solid ${BORDER}`, maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
+      <SectionTag label="Method" />
+      <h2 style={{ fontSize: "clamp(24px, 3.5vw, 42px)", color: WHITE, letterSpacing: "0.1em", fontWeight: "normal", marginBottom: 48, lineHeight: 1.2 }}>
+        The Methodika Way
+      </h2>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 1, background: BORDER, border: `1px solid ${BORDER}` }}>
+        {steps.map(s => <MethodStep key={s.num} {...s} />)}
+      </div>
+    </section>
+  );
+}
+
+/* ── Proof ──────────────────────────────────────────────── */
+function ProofCard({ label, title, desc, artifacts }: { label: string; title: string; desc: string; artifacts: string[] }) {
+  const { hovered, ...handlers } = useHover();
+  const btnHover = useHover();
+  return (
+    <div {...handlers} style={{ background: hovered ? BG_HOVER : BG_CARD, padding: "40px 32px", display: "flex", flexDirection: "column", transition: "background 0.2s", fontFamily: MONO }}>
+      <p style={{ fontSize: 10, letterSpacing: "0.14em", color: TEXT_MUTE, textTransform: "uppercase" as const, marginBottom: 12 }}>{label}</p>
+      <h3 style={{ fontSize: 15, color: WHITE, letterSpacing: "0.05em", fontWeight: "normal", marginBottom: 12, lineHeight: 1.4 }}>{title}</h3>
+      <p style={{ fontSize: 12, color: TEXT_DIM, marginBottom: 20, lineHeight: 1.8, flex: 1 }}>{desc}</p>
+      <p style={{ fontSize: 10, letterSpacing: "0.1em", color: TEXT_MUTE, textTransform: "uppercase" as const, marginBottom: 8 }}>Artifacts</p>
+      <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px 0" }}>
+        {artifacts.map(a => (
+          <li key={a} style={{ fontSize: 11, color: TEXT_DIM, padding: "3px 0 3px 14px", position: "relative" as const }}>
+            <span style={{ position: "absolute" as const, left: 0, color: ACCENT }}>•</span>
+            {a}
+          </li>
+        ))}
+      </ul>
       <a
-        href="https://www.linkedin.com/in/angeliki-bekyra/"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="#contact"
+        {...btnHover}
         style={{
-          border: `1px solid ${hovered ? BLUE : DIM}`,
-          backgroundColor: hovered ? CARD_FEATURED : CARD_BG,
-          padding: "28px 32px",
+          display: "inline-block",
+          border: `1px solid ${btnHover.hovered ? ACCENT : BORDER_HI}`,
+          color: btnHover.hovered ? ACCENT : TEXT_DIM,
+          fontFamily: MONO,
+          fontSize: 10,
+          letterSpacing: "0.12em",
+          padding: "8px 16px",
+          textTransform: "uppercase" as const,
           textDecoration: "none",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          transition: "border-color 0.2s, background-color 0.2s",
-          cursor: "pointer",
+          transition: "border-color 0.2s, color 0.2s",
+          alignSelf: "flex-start",
+          marginTop: "auto",
         }}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
       >
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ fontSize: 18, fontWeight: 700, color: TEXT, fontFamily: "inherit", letterSpacing: "-0.01em" }}>Let's speak</div>
-          <div style={{ fontSize: 11, color: MUTED, fontFamily: "inherit", letterSpacing: "0.04em" }}>about ideas,products,systems & operations.</div>
-        </div>
-        <div
-          style={{
-            fontSize: 10,
-            fontWeight: 700,
-            letterSpacing: "0.14em",
-            color: BG,
-            backgroundColor: hovered ? BLUE_LIGHT : BLUE,
-            padding: "7px 18px",
-            flexShrink: 0,
-            transition: "background-color 0.2s",
-            fontFamily: "inherit",
-          }}
-        >
-          LINKEDIN →
-        </div>
+        [ View System ]
       </a>
     </div>
   );
 }
 
-export default function Portfolio() {
+function Proof() {
+  const cards = [
+    { label: "System 01", title: "Recruiting Operating Systems", desc: "Designed recruiting infrastructures that improve visibility, standardize evaluation, and reduce operational friction throughout the hiring process.", artifacts: ["Candidate pipeline systems", "Interview scorecards", "Hiring dashboards", "Evaluation frameworks", "Recruiting documentation"] },
+    { label: "System 02", title: "Knowledge Management Systems", desc: "Internal systems that transform scattered information into searchable operational knowledge.", artifacts: ["Team wikis", "SOP libraries", "Employee onboarding hubs", "Internal process documentation", "Knowledge repositories"] },
+    { label: "System 03", title: "Customer Operations Infrastructure", desc: "Systems designed to support onboarding, support, customer success, and lifecycle management.", artifacts: ["Customer onboarding workflows", "Escalation systems", "Lifecycle frameworks", "Support operations documentation"] },
+    { label: "System 04", title: "Dashboards & Visibility Systems", desc: "Operational visibility systems designed to help teams make better decisions.", artifacts: ["KPI dashboards", "Recruiting analytics", "Customer metrics", "Operational reporting"] },
+    { label: "System 05", title: "AI & Workflow Automation", desc: "Practical implementations of AI and automation inside existing workflows.", artifacts: ["AI-assisted support systems", "Knowledge retrieval systems", "Workflow orchestration", "Process automation"] },
+  ];
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        backgroundColor: BG,
-        color: TEXT,
-        fontFamily: "'JetBrains Mono', monospace",
-        padding: "48px 56px",
-      }}
-    >
-      <div style={{ maxWidth: 880, margin: "0 auto", display: "flex", flexDirection: "column", gap: 44 }}>
+    <section id="proof" style={{ padding: "96px 48px", borderBottom: `1px solid ${BORDER}`, maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
+      <SectionTag label="Proof" />
+      <div style={{ maxWidth: 600, marginBottom: 56 }}>
+        <p style={{ fontSize: 13, color: TEXT_DIM, marginBottom: 8 }}>Real systems.</p>
+        <p style={{ fontSize: 13, color: TEXT_DIM, marginBottom: 8 }}>Real workflows.</p>
+        <p style={{ fontSize: 13, color: TEXT_DIM, marginBottom: 8 }}>Real operational infrastructure.</p>
+        <p style={{ fontSize: 13, color: TEXT_DIM, marginTop: 16 }}>A collection of systems designed to improve clarity, consistency, scalability, and operational efficiency.</p>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: BORDER, border: `1px solid ${BORDER}` }}>
+        {cards.map(c => <ProofCard key={c.label} {...c} />)}
+      </div>
+    </section>
+  );
+}
 
-        {/* Hero */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
-            <h1
+/* ── Notes ──────────────────────────────────────────────── */
+function NoteCard({ idx, title, lines }: { idx: string; title: string; lines: string[] }) {
+  const { hovered, ...handlers } = useHover();
+  const linkHover = useHover();
+  return (
+    <div {...handlers} style={{ background: hovered ? BG_HOVER : BG_CARD, padding: "36px 30px", display: "flex", flexDirection: "column", transition: "background 0.2s", fontFamily: MONO }}>
+      <p style={{ fontSize: 10, color: TEXT_MUTE, letterSpacing: "0.14em", marginBottom: 14 }}>{idx}</p>
+      <h3 style={{ fontSize: 14, color: WHITE, letterSpacing: "0.04em", fontWeight: "normal", marginBottom: 14, lineHeight: 1.4 }}>{title}</h3>
+      <div style={{ fontSize: 12, color: TEXT_DIM, lineHeight: 1.85, flex: 1, marginBottom: 20 }}>
+        {lines.map((l, i) => <p key={i} style={{ marginBottom: 6 }}>{l}</p>)}
+      </div>
+      <span
+        {...linkHover}
+        style={{ fontSize: 10, letterSpacing: "0.1em", color: linkHover.hovered ? ACCENT : TEXT_MUTE, textTransform: "uppercase" as const, transition: "color 0.2s", cursor: "pointer" }}
+      >
+        [ Read Article ] →
+      </span>
+    </div>
+  );
+}
+
+function Notes() {
+  const notes = [
+    { idx: "01", title: "Documentation Is a Scaling Strategy", lines: ["Most startups think documentation is a task.", "It's infrastructure.", "When knowledge lives in Slack messages and people's heads, every question becomes a dependency.", "Documentation doesn't slow teams down.", "It removes bottlenecks."] },
+    { idx: "02", title: "Why Most AI Projects Fail", lines: ["Many teams start with tools.", "Very few start with processes.", "AI cannot fix a broken workflow.", "It can only accelerate it.", "Before introducing automation, understand how work actually happens."] },
+    { idx: "03", title: "Building Recruiting Systems That Scale", lines: ["Hiring problems are rarely hiring problems.", "They are visibility problems.", "A good recruiting system creates consistency, accountability, and better decisions before the next hire is made."] },
+    { idx: "04", title: "The Hidden Cost of Operational Chaos", lines: ["Operational debt compounds quietly.", "Missed handoffs.", "Duplicate work.", "Unclear ownership.", "Individually small.", "Collectively expensive."] },
+    { idx: "05", title: "Why Startups Automate Too Early", lines: ["Automation is usually the last step.", "Not the first.", "A process nobody understands should not be automated.", "First understand it.", "Then simplify it.", "Then automate it."] },
+    { idx: "06", title: "The Customer Journey Nobody Owns", lines: ["Customers don't experience departments.", "They experience a company.", "The gaps between Support, Success, Product, and Operations are often where the biggest problems hide."] },
+  ];
+  const linkHover = useHover();
+  return (
+    <section id="notes" style={{ padding: "96px 48px", borderBottom: `1px solid ${BORDER}`, maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
+      <SectionTag label="Notes" />
+      <div style={{ maxWidth: 560, marginBottom: 56 }}>
+        <p style={{ fontSize: 13, color: TEXT_DIM, marginBottom: 6 }}>Notes on systems, operations, AI, and the work behind growing companies.</p>
+        <p style={{ fontSize: 13, color: TEXT_DIM, marginBottom: 6 }}>Not frameworks for the sake of frameworks.</p>
+        <p style={{ fontSize: 13, color: TEXT_DIM }}>Just observations from building, fixing, and scaling operational systems.</p>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: BORDER, border: `1px solid ${BORDER}`, marginBottom: 40 }}>
+        {notes.map(n => <NoteCard key={n.idx} {...n} />)}
+      </div>
+      <p style={{ fontSize: 12, color: TEXT_DIM, letterSpacing: "0.06em" }}>
+        <a href="https://substack.com" target="_blank" rel="noopener noreferrer" {...linkHover}
+          style={{ color: linkHover.hovered ? ACCENT : ACCENT, borderBottom: `1px solid ${linkHover.hovered ? ACCENT : ACCENT_DIM}`, textDecoration: "none", transition: "border-color 0.2s" }}>
+          View all articles on Substack →
+        </a>
+      </p>
+    </section>
+  );
+}
+
+/* ── About ──────────────────────────────────────────────── */
+function About() {
+  const experience = ["Spendbase", "Cinobo", "DreamClass", "Layer", "Epignosis", "FlexDesk"];
+  return (
+    <section id="about" style={{ padding: "96px 48px", borderBottom: `1px solid ${BORDER}`, maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
+      <SectionTag label="About" />
+      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 80 }}>
+        <div>
+          <p style={{ fontSize: 20, color: WHITE, letterSpacing: "0.06em", marginBottom: 28 }}>Hi, I'm Angeliki.</p>
+          <p style={{ fontSize: 14, color: TEXT, marginBottom: 14, lineHeight: 1.85 }}>Over the last decade I've worked across Customer Success, Operations, Support, Recruiting, and Product environments.</p>
+          <p style={{ fontSize: 14, color: TEXT, marginBottom: 14, lineHeight: 1.85 }}>I've been fortunate to join startups during periods of growth, complexity, and change.</p>
+          <p style={{ fontSize: 14, color: TEXT, marginBottom: 14, lineHeight: 1.85 }}>My work has consistently involved turning operational challenges into scalable systems.</p>
+          {["Building processes.", "Designing workflows.", "Creating clarity.", "Reducing friction.", "Helping teams work more methodically."].map(l => (
+            <p key={l} style={{ color: TEXT_DIM, fontSize: 13, marginBottom: 8 }}>{l}</p>
+          ))}
+          <p style={{ fontSize: 14, color: TEXT, marginTop: 20, lineHeight: 1.85 }}>METHODIKA is the accumulation of those experiences.</p>
+        </div>
+        <div>
+          <p style={{ fontSize: 11, letterSpacing: "0.14em", color: TEXT_MUTE, textTransform: "uppercase" as const, marginBottom: 24 }}>Selected Experience</p>
+          <ul style={{ listStyle: "none", padding: 0, borderTop: `1px solid ${BORDER}` }}>
+            {experience.map(e => (
+              <ExpItem key={e} label={e} />
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ExpItem({ label }: { label: string }) {
+  const { hovered, ...handlers } = useHover();
+  return (
+    <li {...handlers} style={{ fontSize: 13, color: hovered ? WHITE : TEXT_DIM, padding: "14px 0", borderBottom: `1px solid ${BORDER}`, letterSpacing: "0.04em", transition: "color 0.15s", fontFamily: MONO }}>
+      {label}
+    </li>
+  );
+}
+
+/* ── Contact ────────────────────────────────────────────── */
+function ContactLink({ href, label, external }: { href: string; label: string; external?: boolean }) {
+  const { hovered, ...handlers } = useHover();
+  return (
+    <li style={{ borderBottom: `1px solid ${BORDER}` }}>
+      <a
+        href={href}
+        target={external ? "_blank" : undefined}
+        rel={external ? "noopener noreferrer" : undefined}
+        {...handlers}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "18px 0",
+          fontSize: 13,
+          color: hovered ? ACCENT : TEXT_DIM,
+          letterSpacing: "0.04em",
+          textDecoration: "none",
+          transition: "color 0.15s",
+          fontFamily: MONO,
+        }}
+      >
+        {label}
+        <span style={{ fontSize: 12, color: hovered ? ACCENT : TEXT_MUTE, transition: "color 0.15s" }}>↗</span>
+      </a>
+    </li>
+  );
+}
+
+function Contact() {
+  const { hovered, ...handlers } = useHover();
+  return (
+    <section id="contact" style={{ padding: "96px 48px", maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
+      <SectionTag label="Contact" />
+      <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 80 }}>
+        <div>
+          <h2 style={{ fontSize: "clamp(22px, 3vw, 36px)", color: WHITE, letterSpacing: "0.08em", fontWeight: "normal", marginBottom: 24, lineHeight: 1.3 }}>
+            Let's explore the system.
+          </h2>
+          <p style={{ fontSize: 13, color: TEXT_DIM, marginBottom: 12, lineHeight: 1.85 }}>
+            If something feels messy, slow, manual, or difficult to scale, that's usually where I can help.
+          </p>
+          <p style={{ fontSize: 13, color: TEXT_DIM, marginBottom: 12, lineHeight: 1.85 }}>
+            Whether you're building a recruiting process, improving customer operations, documenting internal knowledge, or exploring AI workflows, every engagement starts the same way:
+          </p>
+          <p style={{ fontSize: 13, color: WHITE, lineHeight: 1.85 }}>Understanding how the system works today.</p>
+          <div style={{ marginTop: 40 }}>
+            <a
+              href="mailto:angelmpkr@gmail.com"
+              {...handlers}
               style={{
-                fontSize: 52,
-                fontWeight: 700,
-                color: TEXT,
-                letterSpacing: "-0.02em",
-                lineHeight: 1,
-                fontFamily: "inherit",
-              }}
-            >HI, I'm Angeliki</h1>
-            <div
-              style={{
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: "0.16em",
-                color: BG,
-                backgroundColor: BLUE,
-                padding: "5px 16px",
-                alignSelf: "center",
-                fontFamily: "inherit",
+                display: "inline-block",
+                border: `1px solid ${ACCENT}`,
+                color: hovered ? BG : ACCENT,
+                background: hovered ? ACCENT : "transparent",
+                fontFamily: MONO,
+                fontSize: 12,
+                letterSpacing: "0.12em",
+                padding: "12px 28px",
+                textTransform: "uppercase" as const,
+                textDecoration: "none",
+                transition: "background 0.2s, color 0.2s",
               }}
             >
-              EXTERNAL OPS MANAGER
-            </div>
-          </div>
-          <div
-            style={{
-              fontSize: 12,
-              color: MUTED,
-              letterSpacing: "0.04em",
-              fontFamily: "inherit",
-            }}
-          >
-            Systems thinker · Process architect · Operations at scale
+              [ Book a Conversation ]
+            </a>
           </div>
         </div>
-
-        <Divider />
-
-        {/* About */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <SectionButton label="ABOUT" />
-          <div
-            style={{
-              border: `1px solid ${DIM}`,
-              backgroundColor: CARD_BG,
-              padding: "20px 24px",
-              display: "flex",
-              flexDirection: "column",
-              gap: 14,
-            }}
-          >
-            <div style={{ fontSize: 11, color: BLUE_LIGHT, fontFamily: "inherit", letterSpacing: "0.04em" }}>
-              // Systems thinker &amp; process architect.
-            </div>
-            <p style={{ margin: 0, fontSize: 12, color: "#cccccc", lineHeight: 1.75, fontFamily: "inherit" }}>
-              I've always liked building things.
-            </p>
-            <p style={{ margin: 0, fontSize: 12, color: "#cccccc", lineHeight: 1.75, fontFamily: "inherit" }}>Not only products, but also the things behind them. The processes, workflows, customer journeys, and small systems that help a team do its work better.</p>
-            <p style={{ margin: 0, fontSize: 12, color: "#cccccc", lineHeight: 1.75, fontFamily: "inherit" }}>
-              A lot of my work has started with something messy: unclear ownership, too many manual steps, scattered information, or a customer experience that could be smoother. I enjoy getting into that mess, understanding what's really happening, and turning it into something simpler and more useful.
-            </p>
-            <p style={{ margin: 0, fontSize: 12, color: "#cccccc", lineHeight: 1.75, fontFamily: "inherit" }}>
-              My background is in customer success, operations, and business operations, where I've helped teams work better together and create better experiences for their customers.
-            </p>
-            <p style={{ margin: 0, fontSize: 12, color: "#cccccc", lineHeight: 1.75, fontFamily: "inherit" }}>
-              Right now, I'm especially interested in AI workflows and practical systems that make everyday work easier to manage and easier to scale.
-            </p>
-            <div style={{ borderTop: `1px solid ${DIM}`, paddingTop: 14, display: "flex", flexDirection: "column", gap: 8 }}>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 24px" }}>
-                {[
-                  "--systems-design",
-                  "--operational-infrastructure",
-                  "--workflow-architecture",
-                  "--customer-operations",
-                  "--ai-workflows",
-                  "--process-optimization",
-                  "--cross-functional-operations",
-                  "--knowledge-systems",
-                ].map((flag) => (
-                  <span key={flag} style={{ fontSize: 10, color: BLUE, fontFamily: "inherit", letterSpacing: "0.04em" }}>
-                    {flag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+        <div style={{ paddingTop: 16 }}>
+          <p style={{ fontSize: 10, letterSpacing: "0.14em", color: TEXT_MUTE, textTransform: "uppercase" as const, marginBottom: 20 }}>Find me here</p>
+          <ul style={{ listStyle: "none", padding: 0, borderTop: `1px solid ${BORDER}` }}>
+            <ContactLink href="https://linkedin.com" label="LinkedIn" external />
+            <ContactLink href="https://substack.com" label="Substack" external />
+            <ContactLink href="mailto:angelmpkr@gmail.com" label="Email" />
+          </ul>
         </div>
-
-        <Divider />
-
-        {/* Work Experience */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          <SectionButton label="WORK EXPERIENCE" />
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 12,
-            }}
-          >
-            {companies.map((c) => (
-              <CompanyCard key={c.id} c={c} />
-            ))}
-          </div>
-        </div>
-
-        <Divider />
-
-        {/* Systems Designed */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-          <SectionButton label="SYSTEMS DESIGNED" />
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: 14,
-            }}
-          >
-            {systems.map((s) => (
-              <SystemCard key={s.id} s={s} />
-            ))}
-          </div>
-        </div>
-
-        <Divider />
-
-        {/* Let's Speak */}
-        <LetsSpeak />
-
       </div>
+    </section>
+  );
+}
+
+/* ── Footer ─────────────────────────────────────────────── */
+function Footer() {
+  return (
+    <footer style={{
+      borderTop: `1px solid ${BORDER}`,
+      padding: "32px 48px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      fontFamily: MONO,
+    }}>
+      <span style={{ fontSize: 12, letterSpacing: "0.18em", color: TEXT_MUTE }}>METHODIKA</span>
+      <span style={{ fontSize: 11, color: TEXT_MUTE, letterSpacing: "0.06em" }}>Working methodically. Building systems intentionally.</span>
+    </footer>
+  );
+}
+
+/* ── App ─────────────────────────────────────────────────── */
+export default function Portfolio() {
+  return (
+    <div style={{ minHeight: "100vh", backgroundColor: BG, color: TEXT, fontFamily: MONO }}>
+      <style>{`
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { background: ${BG}; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: ${BG}; }
+        ::-webkit-scrollbar-thumb { background: ${BORDER_HI}; }
+        ::-webkit-scrollbar-thumb:hover { background: ${TEXT_MUTE}; }
+        @media (max-width: 900px) {
+          #philosophy .phil-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+      <Nav />
+      <main style={{ paddingTop: 52 }}>
+        <Hero />
+        <Philosophy />
+        <WhatIFix />
+        <Systems />
+        <Method />
+        <Proof />
+        <Notes />
+        <About />
+        <Contact />
+      </main>
+      <Footer />
     </div>
   );
 }
