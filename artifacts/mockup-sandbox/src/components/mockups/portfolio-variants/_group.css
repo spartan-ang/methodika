@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+.font-serif-editorial {
+  font-family: 'Lora', serif;
+}
+
+.font-mono-typewriter {
+  font-family: 'Courier Prime', monospace;
+}
+
+.bg-cream {
+  background-color: #fdfaf6;
+}
+
+.text-ink {
+  color: #1a1a1a;
+}
+
+.text-ink-light {
+  color: #4a4a4a;
+}
+
+.border-rule {
+  border-color: #e6e2d8;
+}
+
+.accent-burgundy {
+  color: #7a3b3f;
+}
+
+.bg-burgundy-light {
+  background-color: #f3ecec;
+}
+
+/* Notion Variant Styles */
+.font-notion-sans {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.font-notion-mono {
+  font-family: 'Space Mono', monospace;
+}
+
+.notion-code {
+  color: #eb5757;
+  background: rgba(135, 131, 120, 0.15);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 85%;
+  font-family: 'Space Mono', monospace;
+}
