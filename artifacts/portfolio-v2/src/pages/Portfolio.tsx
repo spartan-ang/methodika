@@ -58,7 +58,7 @@ function Hero() {
       <h1 style={{ fontSize: "clamp(42px, 7vw, 80px)", fontWeight: 500, letterSpacing: "-0.02em", lineHeight: 1.05, color: "#111", marginBottom: 24 }}>Methodika</h1>
       <p style={{ fontSize: 15, color: "#555", maxWidth: 480, lineHeight: 1.75, marginBottom: 10 }}>I help startups eliminate operational chaos, design scalable workflows, and implement practical AI where it actually helps.</p>
       <p style={{ fontSize: 13, color: "#aaa", maxWidth: 480, marginBottom: 36 }}>Built through experience across Customer Success, Operations, Support, Recruiting, and Product teams.</p>
-      <a href="mailto:angeliki@methodika.co" {...h} style={{ display: "inline-block", fontSize: 13, fontWeight: 500, padding: "10px 22px", borderRadius: 6, border: "1px solid rgba(0,0,0,0.25)", background: hovered ? "#f5f5f5" : "#fff", color: "#111", textDecoration: "none", transition: "background 0.15s" }}>
+      <a href="mailto:angeliki@methodika.co" {...h} style={{ display: "inline-block", alignSelf: "flex-start", fontSize: 13, fontWeight: 500, padding: "10px 22px", borderRadius: 6, border: "1px solid rgba(0,0,0,0.25)", background: hovered ? "#f5f5f5" : "#fff", color: "#111", textDecoration: "none", transition: "background 0.15s" }}>
         Book a Conversation
       </a>
     </div>
