@@ -83,7 +83,7 @@ function Philosophy() {
           </ul>
           <div style={{ borderLeft: "2px solid rgba(0,0,0,0.15)", paddingLeft: 16, margin: "24px 0" }}>
             <span style={{ fontSize: 18, fontWeight: 500, display: "block", marginBottom: 4, color: "#111" }}>μεθοδικά</span>
-            <span style={{ fontSize: 12, color: "#888" }}>Methodika — from the Greek.</span>
+            <span style={{ fontSize: 13, color: "#888", lineHeight: 1.6 }}>The Greek word for working systematically and with purpose.</span>
           </div>
           <p style={{ fontSize: 13, color: "#555", marginBottom: 6 }}>Working methodically.</p>
           <p style={{ fontSize: 13, color: "#555", marginBottom: 6 }}>Building systems intentionally.</p>
