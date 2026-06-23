@@ -36,7 +36,7 @@ jobs:
         working-directory: artifacts/portfolio-v2
         env:
           PORT: 3000
-          BASE_PATH: /methodika/
+          BASE_PATH: /
           NODE_ENV: production
         run: pnpm build
 
