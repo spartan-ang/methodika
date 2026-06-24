@@ -50,28 +50,52 @@ function NavLink({ href, label }: { href: string; label: string }) {
   return <a href={href} {...h} style={{ color: hovered ? "#111" : "#888", textDecoration: "none", fontFamily: MONO, fontSize: 12, letterSpacing: "0.04em" }}>{label}</a>;
 }
 
+const WHAT_I_BUILD = [
+  { num: "01", title: "Customer operations", desc: "Onboarding, lifecycle, and ops infrastructure" },
+  { num: "02", title: "Customer Support / Success transformation", desc: "Health scoring, renewals, churn prevention" },
+  { num: "03", title: "Recruiting systems", desc: "Pipelines, scorecards, hiring dashboards" },
+  { num: "04", title: "Knowledge management", desc: "SOPs, wikis, process documentation" },
+  { num: "05", title: "AI workflows", desc: "Practical automation where it actually helps" },
+];
+
 function Hero() {
   const { hovered, ...h } = useHover();
   return (
-    <div id="hero" style={{ minHeight: "calc(100vh - 52px)", display: "flex", flexDirection: "column", justifyContent: "center", padding: "96px 40px", borderBottom: "1px solid rgba(0,0,0,0.06)", fontFamily: MONO, position: "relative", overflow: "hidden" }}>
-      <svg style={{ position: "absolute", top: 0, right: 0, width: "70%", height: "100%", pointerEvents: "none" }} viewBox="0 0 700 480" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="b1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="55"/></filter>
-          <filter id="b2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="70"/></filter>
-          <filter id="b3" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="45"/></filter>
-        </defs>
-        <ellipse cx="580" cy="130" rx="240" ry="180" fill="#ebebeb" filter="url(#b1)" opacity="0.7"/>
-        <ellipse cx="480" cy="360" rx="200" ry="140" fill="#f0f0f0" filter="url(#b2)" opacity="0.6"/>
-        <ellipse cx="660" cy="300" rx="160" ry="200" fill="#e8e8e8" filter="url(#b3)" opacity="0.5"/>
-      </svg>
-      <div style={{ maxWidth: 1100, margin: "0 auto", width: "100%", position: "relative", zIndex: 1 }}>
+    <div id="hero" style={{ borderBottom: "1px solid rgba(0,0,0,0.06)", fontFamily: MONO, display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+      {/* Left column */}
+      <div style={{ padding: "80px 40px", display: "flex", flexDirection: "column", justifyContent: "center", borderRight: "1px solid rgba(0,0,0,0.06)" }}>
         <p style={{ fontSize: 12, color: "#888", marginBottom: 20 }}>// Operational design for growing companies.</p>
-        <h1 style={{ fontSize: "clamp(42px, 7vw, 80px)", fontWeight: 500, letterSpacing: "-0.02em", lineHeight: 1.05, color: "#111", marginBottom: 24 }}>Methodika</h1>
-        <p style={{ fontSize: 15, color: "#555", maxWidth: 480, lineHeight: 1.75, marginBottom: 10 }}>I help startups eliminate operational chaos, design scalable workflows, and implement practical AI where it actually helps.</p>
-        <p style={{ fontSize: 13, color: "#aaa", maxWidth: 480, marginBottom: 36 }}>Built through experience across Customer Success, Operations, Support, Recruiting, and Product teams.</p>
+        <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 500, letterSpacing: "-0.02em", lineHeight: 1.05, color: "#111", marginBottom: 20 }}>Methodika</h1>
+        <p style={{ fontSize: 14, color: "#555", maxWidth: 420, lineHeight: 1.75, marginBottom: 10 }}>I help startups eliminate operational chaos, design scalable workflows, and implement practical AI where it actually helps.</p>
+        <p style={{ fontSize: 12, color: "#bbb", maxWidth: 420, marginBottom: 32 }}>Built through experience across Customer Success, Operations, Support, Recruiting, and Product teams.</p>
         <a href="mailto:angeliki@methodika.co" {...h} style={{ display: "inline-block", fontSize: 13, fontWeight: 500, padding: "10px 22px", borderRadius: 6, border: "1px solid rgba(0,0,0,0.25)", background: hovered ? "#f5f5f5" : "#fff", color: "#111", textDecoration: "none", transition: "background 0.15s" }}>
           Book a Conversation
         </a>
+      </div>
+      {/* Right column */}
+      <div style={{ padding: "80px 40px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+        <svg style={{ position: "absolute", top: 0, right: 0, width: "100%", height: "100%", pointerEvents: "none", opacity: 0.6 }} viewBox="0 0 340 420" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="b1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="40"/></filter>
+            <filter id="b2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="50"/></filter>
+          </defs>
+          <ellipse cx="280" cy="140" rx="180" ry="140" fill="#ebebeb" filter="url(#b1)"/>
+          <ellipse cx="200" cy="320" rx="150" ry="110" fill="#f0f0f0" filter="url(#b2)"/>
+        </svg>
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <p style={{ fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase" as const, color: "#bbb", fontWeight: 500, marginBottom: 20 }}>What I build</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+            {WHAT_I_BUILD.map(({ num, title, desc }) => (
+              <div key={num} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                <span style={{ width: 22, height: 22, background: "rgba(0,0,0,0.04)", border: "0.5px solid rgba(0,0,0,0.1)", borderRadius: 5, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 11, color: "#888", marginTop: 1 }}>{num}</span>
+                <div>
+                  <p style={{ fontSize: 13, fontWeight: 500, color: "#111", marginBottom: 2 }}>{title}</p>
+                  <p style={{ fontSize: 12, color: "#888", lineHeight: 1.5 }}>{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
