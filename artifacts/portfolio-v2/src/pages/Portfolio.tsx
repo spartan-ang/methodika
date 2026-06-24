@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const MONO = "-apple-system, 'Inter', BlinkMacSystemFont, sans-serif";
 
@@ -58,6 +58,33 @@ const WHAT_I_BUILD = [
   { num: "05", title: "AI workflows", desc: "Practical automation where it actually helps" },
 ];
 
+function HeroLogo() {
+  const textRef = useRef<SVGTextElement>(null);
+  const circleRef = useRef<SVGGElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  useEffect(() => {
+    if (!textRef.current || !circleRef.current || !svgRef.current) return;
+    const bbox = textRef.current.getBBox();
+    const gap = 4;
+    const scale = 0.13;
+    const cx = bbox.x + bbox.width + gap;
+    circleRef.current.setAttribute("transform", `translate(${cx}, 5) scale(${scale})`);
+    const totalW = cx + 200 * scale + 4;
+    svgRef.current.setAttribute("viewBox", `0 0 ${totalW} 40`);
+  }, []);
+  return (
+    <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 40" fill="none" style={{ width: 280, height: "auto", marginBottom: 24, display: "block", overflow: "visible" }}>
+      <text ref={textRef} x="0" y="26" fontFamily="'Inter', 'Helvetica Neue', Arial, sans-serif" fontWeight={400} fontSize={22} letterSpacing={5.5} fill="#0C0B09">
+        METHODI<tspan letterSpacing={0}>K</tspan>
+      </text>
+      <g ref={circleRef} transform="translate(0,5) scale(0.13)">
+        <circle cx="100" cy="100" r="84" stroke="#0C0B09" strokeWidth="18" fill="none"/>
+        <path fillRule="evenodd" fill="#0C0B09" d="M 100,24 L 148,160 L 52,160 Z M 100,42 L 116,106 L 84,106 Z M 82,118 L 118,118 L 126,160 L 74,160 Z"/>
+      </g>
+    </svg>
+  );
+}
+
 function Hero() {
   const { hovered, ...h } = useHover();
   return (
@@ -66,7 +93,7 @@ function Hero() {
       {/* Left column */}
       <div style={{ padding: "80px 40px", display: "flex", flexDirection: "column", justifyContent: "center", borderRight: "1px solid rgba(0,0,0,0.06)" }}>
         <p style={{ fontSize: 12, color: "#888", marginBottom: 20 }}>// Operational design for growing companies.</p>
-        <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 500, letterSpacing: "-0.02em", lineHeight: 1.05, color: "#111", marginBottom: 20 }}>Methodika</h1>
+        <HeroLogo />
         <p style={{ fontSize: 14, color: "#555", maxWidth: 420, lineHeight: 1.75, marginBottom: 10 }}>I help startups eliminate operational chaos, design scalable workflows, and implement practical AI where it actually helps.</p>
         <p style={{ fontSize: 12, color: "#bbb", maxWidth: 420, marginBottom: 32 }}>Built through experience across Customer Success, Operations, Support, Recruiting, and Product teams.</p>
         <a href="mailto:angeliki@methodika.co" {...h} style={{ display: "inline-block", alignSelf: "flex-start", fontSize: 13, fontWeight: 500, padding: "10px 22px", borderRadius: 6, border: "1px solid rgba(0,0,0,0.25)", background: hovered ? "#f5f5f5" : "#fff", color: "#111", textDecoration: "none", transition: "background 0.15s" }}>
