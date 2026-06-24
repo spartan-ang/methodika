@@ -53,8 +53,18 @@ function NavLink({ href, label }: { href: string; label: string }) {
 function Hero() {
   const { hovered, ...h } = useHover();
   return (
-    <div id="hero" style={{ minHeight: "calc(100vh - 52px)", display: "flex", flexDirection: "column", justifyContent: "center", padding: "96px 40px", borderBottom: "1px solid rgba(0,0,0,0.1)", fontFamily: MONO }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", width: "100%" }}>
+    <div id="hero" style={{ minHeight: "calc(100vh - 52px)", display: "flex", flexDirection: "column", justifyContent: "center", padding: "96px 40px", borderBottom: "1px solid rgba(0,0,0,0.06)", fontFamily: MONO, position: "relative", overflow: "hidden" }}>
+      <svg style={{ position: "absolute", top: 0, right: 0, width: "70%", height: "100%", pointerEvents: "none" }} viewBox="0 0 700 480" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="b1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="55"/></filter>
+          <filter id="b2" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="70"/></filter>
+          <filter id="b3" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="45"/></filter>
+        </defs>
+        <ellipse cx="580" cy="130" rx="240" ry="180" fill="#ebebeb" filter="url(#b1)" opacity="0.7"/>
+        <ellipse cx="480" cy="360" rx="200" ry="140" fill="#f0f0f0" filter="url(#b2)" opacity="0.6"/>
+        <ellipse cx="660" cy="300" rx="160" ry="200" fill="#e8e8e8" filter="url(#b3)" opacity="0.5"/>
+      </svg>
+      <div style={{ maxWidth: 1100, margin: "0 auto", width: "100%", position: "relative", zIndex: 1 }}>
         <p style={{ fontSize: 12, color: "#888", marginBottom: 20 }}>// Operational design for growing companies.</p>
         <h1 style={{ fontSize: "clamp(42px, 7vw, 80px)", fontWeight: 500, letterSpacing: "-0.02em", lineHeight: 1.05, color: "#111", marginBottom: 24 }}>Methodika</h1>
         <p style={{ fontSize: 15, color: "#555", maxWidth: 480, lineHeight: 1.75, marginBottom: 10 }}>I help startups eliminate operational chaos, design scalable workflows, and implement practical AI where it actually helps.</p>
