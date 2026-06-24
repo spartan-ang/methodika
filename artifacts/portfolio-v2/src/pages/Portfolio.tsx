@@ -61,7 +61,8 @@ const WHAT_I_BUILD = [
 function Hero() {
   const { hovered, ...h } = useHover();
   return (
-    <div id="hero" style={{ borderBottom: "1px solid rgba(0,0,0,0.06)", fontFamily: MONO, display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+    <div id="hero" style={{ borderBottom: "1px solid rgba(0,0,0,0.06)", fontFamily: MONO }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr" }}>
       {/* Left column */}
       <div style={{ padding: "80px 40px", display: "flex", flexDirection: "column", justifyContent: "center", borderRight: "1px solid rgba(0,0,0,0.06)" }}>
         <p style={{ fontSize: 12, color: "#888", marginBottom: 20 }}>// Operational design for growing companies.</p>
@@ -96,6 +97,7 @@ function Hero() {
             ))}
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
