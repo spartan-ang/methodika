@@ -1,3 +1,12 @@
-<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="180" height="180" rx="36" fill="#FF3C00"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!--
+    METHODIKA — Circle-A Mark (Dark / For Light Backgrounds)
+    Color: #0C0B09 on transparent background
+    Usage: favicon, social avatar, watermark on light surfaces
+  -->
+  <circle cx="100" cy="100" r="84" stroke="#0C0B09" stroke-width="11" fill="none"/>
+  <path fill-rule="evenodd" fill="#0C0B09"
+    d="M 100,24 L 148,160 L 52,160 Z
+       M 100,42 L 116,106 L 84,106 Z
+       M 82,118 L 118,118 L 126,160 L 74,160 Z"/>
 </svg>
