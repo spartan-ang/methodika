@@ -31,13 +31,13 @@ function Nav() {
   return (
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-      background: "#fff",
-      borderBottom: "1px solid rgba(0,0,0,0.1)",
+      background: "#fafafa",
+      borderBottom: "1px solid rgba(0,0,0,0.18)",
       padding: "0 40px",
       display: "flex", alignItems: "center", justifyContent: "space-between",
-      height: 52, fontFamily: MONO,
+      height: 56, fontFamily: MONO,
     }}>
-      <span style={{ fontSize: 13, fontWeight: 500, letterSpacing: "0.06em", color: "#111" }}>Methodika</span>
+      <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", color: "#111" }}>Methodika</span>
       <ul style={{ display: "flex", gap: 24, listStyle: "none", margin: 0, padding: 0 }}>
         {links.map(l => <li key={l}><NavLink href={`#${l.toLowerCase()}`} label={l} /></li>)}
       </ul>
@@ -47,7 +47,7 @@ function Nav() {
 
 function NavLink({ href, label }: { href: string; label: string }) {
   const { hovered, ...h } = useHover();
-  return <a href={href} {...h} style={{ color: hovered ? "#111" : "#888", textDecoration: "none", fontFamily: MONO, fontSize: 12, letterSpacing: "0.04em" }}>{label}</a>;
+  return <a href={href} {...h} style={{ color: hovered ? "#111" : "#555", textDecoration: "none", fontFamily: MONO, fontSize: 12, letterSpacing: "0.02em" }}>{label}</a>;
 }
 
 const WHAT_I_BUILD = [
@@ -450,7 +450,7 @@ export default function Portfolio() {
         }
       `}</style>
       <Nav />
-      <main style={{ paddingTop: 52 }}>
+      <main style={{ paddingTop: 56 }}>
         <Hero />
         <Philosophy />
         <WhatIFix />
