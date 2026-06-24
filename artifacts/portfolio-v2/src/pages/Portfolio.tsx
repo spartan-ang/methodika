@@ -73,7 +73,7 @@ function HeroLogo() {
     svgRef.current.setAttribute("viewBox", `0 0 ${totalW} 40`);
   }, []);
   return (
-    <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 40" fill="none" style={{ width: 280, height: "auto", marginBottom: 24, display: "block", overflow: "visible" }}>
+    <svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 40" fill="none" className="hero-logo" style={{ width: 280, height: "auto", marginBottom: 24, display: "block", overflow: "visible" }}>
       <text ref={textRef} x="0" y="26" fontFamily="'Inter', 'Helvetica Neue', Arial, sans-serif" fontWeight={400} fontSize={22} letterSpacing={5.5} fill="#0C0B09">
         METHODI<tspan letterSpacing={0}>K</tspan>
       </text>
@@ -89,9 +89,9 @@ function Hero() {
   const { hovered, ...h } = useHover();
   return (
     <div id="hero" style={{ borderBottom: "1px solid rgba(0,0,0,0.06)", fontFamily: MONO }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr" }}>
+      <div className="hero-grid" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr" }}>
       {/* Left column */}
-      <div style={{ padding: "80px 40px", display: "flex", flexDirection: "column", justifyContent: "center", borderRight: "1px solid rgba(0,0,0,0.06)" }}>
+      <div className="hero-left" style={{ padding: "80px 40px", display: "flex", flexDirection: "column", justifyContent: "center", borderRight: "1px solid rgba(0,0,0,0.06)" }}>
         <p style={{ fontSize: 12, color: "#888", marginBottom: 20 }}>// Operational design for growing companies.</p>
         <HeroLogo />
         <p style={{ fontSize: 14, color: "#555", maxWidth: 420, lineHeight: 1.75, marginBottom: 10 }}>I help startups eliminate operational chaos, design scalable workflows, and implement practical AI where it actually helps.</p>
@@ -101,7 +101,7 @@ function Hero() {
         </a>
       </div>
       {/* Right column */}
-      <div style={{ padding: "80px 40px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+      <div className="hero-right" style={{ padding: "80px 40px", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden" }}>
         <svg style={{ position: "absolute", top: 0, right: 0, width: "100%", height: "100%", pointerEvents: "none", opacity: 0.6 }} viewBox="0 0 340 420" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <filter id="b1" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="40"/></filter>
@@ -134,7 +134,7 @@ function Philosophy() {
   return (
     <section id="philosophy" style={{ padding: "72px 40px", borderBottom: "1px solid rgba(0,0,0,0.1)", maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
       <SectionTag label="Philosophy" />
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56 }}>
+      <div className="grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 56 }}>
         <div>
           <h2 style={{ fontSize: 22, fontWeight: 500, marginBottom: 20, lineHeight: 1.3, color: "#111" }}>Why Methodika?</h2>
           <p style={{ fontSize: 13, color: "#555", marginBottom: 12, lineHeight: 1.75 }}>Growing companies rarely struggle because people aren't working hard enough.</p>
@@ -189,7 +189,7 @@ function WhatIFix() {
   return (
     <section id="fix" style={{ padding: "72px 40px", borderBottom: "1px solid rgba(0,0,0,0.1)", maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
       <SectionTag label="What I Fix" />
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden" }}>
+      <div className="grid-2col" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden" }}>
         {cards.map(c => <FixCard key={c.num} {...c} />)}
       </div>
     </section>
@@ -219,7 +219,7 @@ function Systems() {
       <SectionTag label="Systems" />
       <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#bbb", marginBottom: 4, fontWeight: 500 }}>Systems in Production</p>
       <h2 style={{ fontSize: 26, fontWeight: 500, letterSpacing: "-0.01em", marginBottom: 32, lineHeight: 1.2, color: "#111" }}>A selection of operational systems designed across startups and growing companies.</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden" }}>
+      <div className="grid-3col" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden" }}>
         <SysCard tag="Recruiting OS" title="Recruiting OS" includes={["Candidate pipelines", "Interview scorecards", "Hiring dashboards", "Evaluation frameworks", "Decision workflows"]} />
         <SysCard tag="Customer Ops" title="Customer Operations Infrastructure" includes={["Customer lifecycle design", "Onboarding workflows", "Escalation systems", "Success processes", "Support operations"]} />
         <SysCard tag="Knowledge Mgmt" title="Knowledge Management System" includes={["Team documentation", "SOP libraries", "Internal wikis", "Employee onboarding hubs", "Process repositories"]} />
@@ -254,7 +254,7 @@ function Method() {
     <section id="method" style={{ padding: "72px 40px", borderBottom: "1px solid rgba(0,0,0,0.1)", maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
       <SectionTag label="Method" />
       <h2 style={{ fontSize: 26, fontWeight: 500, letterSpacing: "-0.01em", marginBottom: 32, lineHeight: 1.2, color: "#111" }}>The Methodika Way</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden" }}>
+      <div className="grid-5col" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden" }}>
         {steps.map(s => <MethodStep key={s.num} {...s} />)}
       </div>
     </section>
@@ -299,7 +299,7 @@ function Proof() {
         <p style={{ fontSize: 13, color: "#666", marginBottom: 16 }}>Real operational infrastructure.</p>
         <p style={{ fontSize: 13, color: "#666" }}>A collection of systems designed to improve clarity, consistency, scalability, and operational efficiency.</p>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden" }}>
+      <div className="grid-3col" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden" }}>
         {cards.map(c => <ProofCard key={c.label} {...c} />)}
       </div>
     </section>
@@ -335,7 +335,7 @@ function Notes() {
         <p style={{ fontSize: 13, color: "#666", marginBottom: 4 }}>Not frameworks for the sake of frameworks.</p>
         <p style={{ fontSize: 13, color: "#666" }}>Just observations from building, fixing, and scaling operational systems.</p>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden", marginBottom: 24 }}>
+      <div className="grid-3col" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden", marginBottom: 24 }}>
         {notes.map(n => <NoteCard key={n.idx} {...n} />)}
       </div>
       <p style={{ fontSize: 12, color: "#888" }}>
@@ -357,7 +357,7 @@ function About() {
   return (
     <section id="about" style={{ padding: "72px 40px", borderBottom: "1px solid rgba(0,0,0,0.1)", maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
       <SectionTag label="About" />
-      <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 64 }}>
+      <div className="grid-2col" style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: 64 }}>
         <div>
           <p style={{ fontSize: 18, fontWeight: 500, marginBottom: 20, color: "#111" }}>Hi, I'm Angeliki.</p>
           <p style={{ fontSize: 13, color: "#555", marginBottom: 12, lineHeight: 1.75 }}>Over the last decade I've worked across Customer Success, Operations, Support, Recruiting, and Product environments.</p>
@@ -399,7 +399,7 @@ function Contact() {
   return (
     <section id="contact" style={{ padding: "72px 40px", maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
       <SectionTag label="Contact" />
-      <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 64 }}>
+      <div className="grid-2col" style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr", gap: 64 }}>
         <div>
           <h2 style={{ fontSize: 26, fontWeight: 500, marginBottom: 20, lineHeight: 1.3, color: "#111" }}>Let's explore the system.</h2>
           <p style={{ fontSize: 13, color: "#555", marginBottom: 10, lineHeight: 1.75 }}>If something feels messy, slow, manual, or difficult to scale, that's usually where I can help.</p>
@@ -443,10 +443,34 @@ export default function Portfolio() {
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #fff; }
         ::-webkit-scrollbar-thumb { background: #ddd; }
-        @media (max-width: 900px) {
-          nav ul { display: none; }
-          section { padding: 48px 24px !important; }
-          .hero { padding: 64px 24px !important; }
+
+        @media (max-width: 768px) {
+          nav { height: 48px !important; padding: 0 20px !important; }
+          nav ul { display: none !important; }
+          main { padding-top: 48px !important; }
+
+          section { padding: 40px 20px !important; }
+
+          .hero-grid { grid-template-columns: 1fr !important; }
+          .hero-left { padding: 48px 20px !important; border-right: none !important; }
+          .hero-right { display: none !important; }
+          .hero-logo { width: 200px !important; }
+
+          .grid-2col { grid-template-columns: 1fr !important; }
+          .grid-2col > * { border-right: none !important; }
+
+          .grid-3col { grid-template-columns: 1fr !important; }
+          .grid-5col { grid-template-columns: 1fr !important; }
+
+          footer { padding: 20px !important; flex-direction: column !important; gap: 8px !important; text-align: center; }
+        }
+
+        @media (min-width: 769px) and (max-width: 1100px) {
+          .grid-3col { grid-template-columns: repeat(2, 1fr) !important; }
+          .grid-5col { grid-template-columns: repeat(2, 1fr) !important; }
+          section { padding: 56px 32px !important; }
+          .hero-left { padding: 64px 32px !important; }
+          .hero-right { padding: 64px 32px !important; }
         }
       `}</style>
       <Nav />
