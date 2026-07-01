@@ -27,7 +27,15 @@ function SectionTag({ label }: { label: string }) {
 }
 
 function Nav() {
-  const links = ["Philosophy", "Systems", "Method", "Proof", "Notes", "About", "Contact"];
+  const links = [
+    { label: "Philosophy", href: "#philosophy" },
+    { label: "Systems", href: "#systems" },
+    { label: "Method", href: "#method" },
+    { label: "Use Cases", href: "#use-cases" },
+    { label: "Notes", href: "#notes" },
+    { label: "About", href: "#about" },
+    { label: "Contact", href: "#contact" },
+  ];
   return (
     <nav style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
@@ -39,7 +47,7 @@ function Nav() {
     }}>
       <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", color: "#111" }}>Methodika</span>
       <ul style={{ display: "flex", gap: 24, listStyle: "none", margin: 0, padding: 0 }}>
-        {links.map(l => <li key={l}><NavLink href={`#${l.toLowerCase()}`} label={l} /></li>)}
+        {links.map(l => <li key={l.label}><NavLink href={l.href} label={l.label} /></li>)}
       </ul>
     </nav>
   );
@@ -261,46 +269,255 @@ function Method() {
   );
 }
 
-function ProofCard({ label, title, desc, artifacts }: { label: string; title: string; desc: string; artifacts: string[] }) {
-  const { hovered, ...h } = useHover();
-  const btn = useHover();
-  return (
-    <div {...h} style={{ background: hovered ? "#fafafa" : "#fff", padding: "28px 24px", display: "flex", flexDirection: "column", transition: "background 0.15s", fontFamily: MONO }}>
-      <p style={{ fontSize: 11, color: "#bbb", letterSpacing: "0.1em", marginBottom: 12, fontWeight: 500 }}>{label}</p>
-      <h3 style={{ fontSize: 14, fontWeight: 500, marginBottom: 12, lineHeight: 1.4, color: "#111" }}>{title}</h3>
-      <p style={{ fontSize: 12, color: "#666", marginBottom: 14, lineHeight: 1.75, flex: 1 }}>{desc}</p>
-      <ul style={{ listStyle: "none", padding: 0, margin: "0 0 0 0" }}>
-        {artifacts.map(a => (
-          <li key={a} style={{ fontSize: 11, color: "#666", padding: "3px 0 3px 14px", position: "relative" as const }}>
-            <span style={{ position: "absolute" as const, left: 0, color: "#bbb" }}>•</span>{a}
-          </li>
+const UC_SYSTEMS = [
+  {
+    title: "Recruiting Operating Systems",
+    desc: "Recruiting infrastructures that improve visibility, standardize evaluation, and reduce operational friction throughout the hiring process.",
+    items: ["Candidate pipeline systems", "Interview scorecards", "Hiring dashboards", "Evaluation frameworks"],
+  },
+  {
+    title: "Knowledge Management",
+    desc: "Internal systems that transform scattered information into searchable operational knowledge accessible to the whole team.",
+    items: ["Team wikis", "SOP libraries", "Employee onboarding hubs", "Knowledge repositories"],
+  },
+  {
+    title: "Customer Operations",
+    desc: "Systems designed to support onboarding, customer success, and lifecycle management across the full customer journey.",
+    items: ["Customer onboarding workflows", "Vendor evaluation & tool selection", "Implementation roadmaps", "Support operations documentation"],
+  },
+  {
+    title: "Dashboards & Visibility",
+    desc: "Operational visibility systems designed to help teams track what matters and make better decisions with real-time data.",
+    items: ["KPI dashboards", "Recruiting analytics", "Customer metrics", "Operational reporting"],
+  },
+  {
+    title: "AI & Workflow Automation",
+    desc: "Practical implementations of AI and automation inside existing workflows — where it actually reduces manual load.",
+    items: ["AI-assisted support systems", "Knowledge retrieval systems", "Workflow orchestration", "Process automation"],
+  },
+  {
+    title: "CS Transformation",
+    desc: "End-to-end redesign of customer success functions to drive retention, expansion, and long-term growth.",
+    items: ["CS strategy design", "Health scoring systems", "Renewal workflows", "Expansion playbooks"],
+  },
+  {
+    title: "Business Operating Infrastructure",
+    desc: "Built from zero into a working operational setup, including the visual identity, public-facing website, backend workflows, service operations, and automation layer that supports the day-to-day running of the business.",
+    items: ["Brand identity and logo direction", "Website structure, copy, front-end, and back-end setup", "Lead capture and customer onboarding flow", "Backend operational workflows", "Automation for recurring admin tasks", "Internal process structure for running the service"],
+  },
+];
+
+function UCScreenshot({ idx }: { idx: number }) {
+  if (idx === 0) return (
+    <div style={{ background: "#fff", padding: "18px 20px" }}>
+      <p style={{ fontSize: 11, fontWeight: 600, color: "#111", marginBottom: 10 }}>Candidates pipeline</p>
+      <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
+        {(["Applied", "Shortlisted", "Interviewed"] as const).map((stage, i) => (
+          <div key={stage} style={{ background: "#f5f5f5", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "8px 10px", flex: 1 }}>
+            <p style={{ fontSize: 9, color: "#5b8fe8", marginBottom: 5, fontWeight: 500 }}>● {stage}</p>
+            <div style={{ background: "#fff", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 3, padding: 5, fontSize: 8, color: "#555" }}>
+              {["Joshua Tree", "John Doe", "Mary Dow"][i]}
+              <span style={{ color: i < 2 ? "#e08050" : "#5b8fe8", background: i < 2 ? "#fdf0e8" : "#eef3fd", padding: "1px 4px", borderRadius: 2, fontSize: 7, display: "inline-block", marginTop: 2 }}>{i < 2 ? "Mktg Spec." : "CS Lead"}</span>
+            </div>
+          </div>
         ))}
-      </ul>
-      <a href="#contact" {...btn} style={{ display: "inline-block", fontSize: 11, fontWeight: 500, padding: "6px 14px", border: `1px solid ${btn.hovered ? "rgba(0,0,0,0.25)" : "rgba(0,0,0,0.12)"}`, borderRadius: 6, color: btn.hovered ? "#111" : "#888", textDecoration: "none", marginTop: 16, alignSelf: "flex-start", transition: "all 0.15s" }}>View System →</a>
+      </div>
+      <div style={{ display: "flex", gap: 10 }}>
+        <div style={{ background: "#f5f5f5", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "10px 14px", textAlign: "center" as const }}>
+          <span style={{ fontSize: 26, fontWeight: 700, color: "#111", display: "block", lineHeight: 1.1 }}>23</span>
+          <span style={{ fontSize: 8, color: "#888" }}>Total candidates</span>
+        </div>
+        <div style={{ flex: 1, background: "#f5f5f5", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "10px 12px" }}>
+          <p style={{ fontSize: 9, color: "#888", marginBottom: 6 }}>Rejected per stage</p>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 5, height: 44 }}>
+            {[44, 6, 6, 6, 28].map((h, i) => <div key={i} style={{ background: "#f0c050", width: 18, height: h, borderRadius: "2px 2px 0 0" }} />)}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+  if (idx === 2) return (
+    <div style={{ background: "#fff", padding: "18px 20px" }}>
+      <div style={{ display: "flex", gap: 7, marginBottom: 12, flexWrap: "wrap" as const }}>
+        {[["2", "Team members"], ["~600", "tickets/mo"], ["3–4h", "first response"], ["~2d", "resolution"]].map(([val, label]) => (
+          <div key={label} style={{ background: "#fef08a", padding: "7px 10px", borderRadius: 4, fontSize: 8, fontWeight: 600, color: "#555", textAlign: "center" as const }}>
+            <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: "#111", marginBottom: 2 }}>{val}</span>{label}
+          </div>
+        ))}
+      </div>
+      <table style={{ width: "100%", borderCollapse: "collapse" as const, fontSize: 9 }}>
+        <thead><tr style={{ background: "#f0f0f0" }}><td style={{ padding: "5px 7px", fontWeight: 600, color: "#555" }}>Tool</td><td style={{ padding: "5px 7px", fontWeight: 600, color: "#555" }}>Type</td><td style={{ padding: "5px 7px", fontWeight: 600, color: "#555" }}>Cost</td></tr></thead>
+        <tbody>
+          {[["Helpify", "B2B SaaS", "$47/seat"], ["Freshdesk", "All verticals", "$15/seat"], ["Intercom", "B2B SaaS", "$74/seat"], ["Zendesk", "All verticals", "$55/seat"]].map(([tool, type, cost], i) => (
+            <tr key={tool} style={{ background: i % 2 === 1 ? "#f9f9f9" : "#fff" }}>
+              <td style={{ padding: "5px 7px", color: "#555" }}>{tool}</td>
+              <td style={{ padding: "5px 7px", color: "#888" }}>{type}</td>
+              <td style={{ padding: "5px 7px", color: "#888" }}>{cost}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+  if (idx === 3) return (
+    <div style={{ background: "#fff", padding: "18px 20px" }}>
+      <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
+        {[["New Total", "6,169"], ["Cancellations", "3,816"]].map(([label, val]) => (
+          <div key={label} style={{ flex: 1, border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "10px 14px" }}>
+            <p style={{ fontSize: 9, color: "#888", marginBottom: 3 }}>{label}</p>
+            <p style={{ fontSize: 26, fontWeight: 700, color: "#111" }}>{val}</p>
+          </div>
+        ))}
+      </div>
+      <div style={{ border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "12px 14px" }}>
+        <p style={{ fontSize: 9, color: "#888", marginBottom: 8 }}>New — by date</p>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: 52 }}>
+          {[22, 30, 18, 16, 22, 28, 34, 40, 52, 36, 12, 8].map((h, i) => (
+            <div key={i} style={{ background: "#4a9be8", width: 14, height: h, borderRadius: "2px 2px 0 0", opacity: h > 40 ? 1 : h > 20 ? 0.8 : 0.6 }} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+  if (idx === 5) return (
+    <div style={{ background: "#fff", padding: "18px 20px" }}>
+      <p style={{ fontSize: 11, fontWeight: 600, color: "#111", marginBottom: 8 }}>Post-Sales Ownership & Execution — RACI</p>
+      <table style={{ width: "100%", borderCollapse: "collapse" as const, fontSize: 9 }}>
+        <thead><tr style={{ background: "#1a5c3a", color: "#fff" }}>
+          <td style={{ padding: "5px 7px", fontWeight: 600 }}>Activity</td>
+          <td style={{ padding: "5px 7px", textAlign: "center" as const }}>CSM</td>
+          <td style={{ padding: "5px 7px", textAlign: "center" as const }}>Credits SME</td>
+        </tr></thead>
+        <tbody>
+          {[
+            ["Customer relationship ownership", "A", "I"],
+            ["Account success strategy", "A", "C"],
+            ["Renewal ownership & forecast", "A", "I"],
+            ["Upsell / cross-sell discovery", "A", "C"],
+            ["Credits application & submission", "I", "R/A"],
+          ].map(([activity, csm, sme], i) => (
+            <tr key={activity} style={{ background: i % 2 === 1 ? "#f9f9f9" : "#fff" }}>
+              <td style={{ padding: "5px 7px", color: "#555" }}>{activity}</td>
+              <td style={{ padding: "5px 7px", textAlign: "center" as const, fontWeight: csm === "A" ? 700 : 400, background: csm === "A" ? "#d1fae5" : "transparent", color: csm === "A" ? "#065f46" : "#888" }}>{csm}</td>
+              <td style={{ padding: "5px 7px", textAlign: "center" as const, fontWeight: sme === "R/A" ? 700 : 400, background: sme === "R/A" ? "#d1fae5" : "transparent", color: sme === "R/A" ? "#065f46" : "#888" }}>{sme}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 200, color: "#ccc", fontSize: 12, background: "#fff", fontFamily: MONO }}>
+      Screenshots coming soon
     </div>
   );
 }
 
-function Proof() {
-  const cards = [
-    { label: "System 01", title: "Recruiting Operating Systems", desc: "Designed recruiting infrastructures that improve visibility, standardize evaluation, and reduce operational friction throughout the hiring process.", artifacts: ["Candidate pipeline systems", "Interview scorecards", "Hiring dashboards", "Evaluation frameworks", "Recruiting documentation"] },
-    { label: "System 02", title: "Knowledge Management Systems", desc: "Internal systems that transform scattered information into searchable operational knowledge.", artifacts: ["Team wikis", "SOP libraries", "Employee onboarding hubs", "Internal process documentation", "Knowledge repositories"] },
-    { label: "System 03", title: "Customer Operations Infrastructure", desc: "Systems designed to support onboarding, support, customer success, and lifecycle management.", artifacts: ["Customer onboarding workflows", "Escalation systems", "Lifecycle frameworks", "Support operations documentation"] },
-    { label: "System 04", title: "Dashboards & Visibility Systems", desc: "Operational visibility systems designed to help teams make better decisions.", artifacts: ["KPI dashboards", "Recruiting analytics", "Customer metrics", "Operational reporting"] },
-    { label: "System 05", title: "AI & Workflow Automation", desc: "Practical implementations of AI and automation inside existing workflows.", artifacts: ["AI-assisted support systems", "Knowledge retrieval systems", "Workflow orchestration", "Process automation"] },
-    { label: "System 06", title: "Customer Success Transformation", desc: "End-to-end redesign of customer success functions to drive retention, expansion, and long-term growth.", artifacts: ["CS strategy design", "Health scoring systems", "Renewal workflows", "Expansion playbooks"] },
-  ];
+const UC_PER_PAGE = 3;
+
+function UseCases() {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [offset, setOffset] = useState(0);
+  const totalPages = Math.ceil(UC_SYSTEMS.length / UC_PER_PAGE);
+  const visibleStart = offset * UC_PER_PAGE;
+  const sys = UC_SYSTEMS[activeIdx];
+
+  const shiftCards = (dir: number) => {
+    const next = offset + dir;
+    if (next < 0 || next >= totalPages) return;
+    setOffset(next);
+    const newStart = next * UC_PER_PAGE;
+    if (activeIdx < newStart || activeIdx >= newStart + UC_PER_PAGE) {
+      setActiveIdx(newStart);
+    }
+  };
+
   return (
-    <section id="proof" style={{ padding: "72px 40px", borderBottom: "1px solid rgba(0,0,0,0.1)", maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
-      <SectionTag label="Proof" />
-      <div style={{ marginBottom: 32 }}>
-        <p style={{ fontSize: 13, color: "#666", marginBottom: 4 }}>Real systems.</p>
-        <p style={{ fontSize: 13, color: "#666", marginBottom: 4 }}>Real workflows.</p>
-        <p style={{ fontSize: 13, color: "#666", marginBottom: 16 }}>Real operational infrastructure.</p>
-        <p style={{ fontSize: 13, color: "#666" }}>A collection of systems designed to improve clarity, consistency, scalability, and operational efficiency.</p>
+    <section id="use-cases" style={{ padding: "72px 40px", borderBottom: "1px solid rgba(0,0,0,0.1)", maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
+      <div style={{ textAlign: "center" as const }}>
+        <SectionTag label="Use Cases" />
       </div>
-      <div className="grid-3col" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden" }}>
-        {cards.map(c => <ProofCard key={c.label} {...c} />)}
+      <div style={{ textAlign: "center" as const, marginBottom: 36 }}>
+        <p style={{ fontSize: 17, fontWeight: 500, color: "#111", lineHeight: 1.5, marginBottom: 10 }}>
+          Real systems.<br />Real workflows.<br />Real operational infrastructure.
+        </p>
+        <p style={{ fontSize: 13, color: "#888", lineHeight: 1.7 }}>
+          A collection of systems designed to improve clarity, consistency, scalability, and operational efficiency.
+        </p>
+      </div>
+
+      {/* Card navigation */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <button
+          type="button"
+          onClick={() => shiftCards(-1)}
+          style={{ background: "rgba(255,255,255,0.8)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "50%", width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, color: offset === 0 ? "#e0e0e0" : "#888", fontSize: 18, lineHeight: 1, fontFamily: MONO }}
+        >‹</button>
+        <div style={{ display: "flex", gap: 10, flex: 1 }}>
+          {Array.from({ length: UC_PER_PAGE }, (_, j) => {
+            const ucSys = UC_SYSTEMS[visibleStart + j];
+            if (!ucSys) return <div key={j} style={{ flex: 1 }} />;
+            const realIdx = visibleStart + j;
+            const isActive = realIdx === activeIdx;
+            return (
+              <button
+                key={realIdx}
+                type="button"
+                onClick={() => setActiveIdx(realIdx)}
+                style={{
+                  flex: 1, borderRadius: 10, padding: "20px 18px", cursor: "pointer",
+                  border: `1px solid ${isActive ? "#111" : "rgba(0,0,0,0.08)"}`,
+                  background: isActive ? "#111" : "#fff",
+                  boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+                  textAlign: "center" as const,
+                  fontFamily: MONO,
+                }}
+              >
+                <span style={{ fontSize: 13, fontWeight: 500, color: isActive ? "#fff" : "#111", lineHeight: 1.4, display: "block" }}>{ucSys.title}</span>
+              </button>
+            );
+          })}
+        </div>
+        <button
+          type="button"
+          onClick={() => shiftCards(1)}
+          style={{ background: "rgba(255,255,255,0.8)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "50%", width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, color: offset >= totalPages - 1 ? "#e0e0e0" : "#888", fontSize: 18, lineHeight: 1, fontFamily: MONO }}
+        >›</button>
+      </div>
+
+      {/* Caret row */}
+      <div style={{ display: "flex", gap: 10, marginLeft: 44, marginRight: 44, height: 14, pointerEvents: "none" as const }}>
+        {Array.from({ length: UC_PER_PAGE }, (_, j) => {
+          const realIdx = visibleStart + j;
+          const hasSys = !!UC_SYSTEMS[realIdx];
+          const isActive = hasSys && realIdx === activeIdx;
+          return (
+            <div key={j} style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "flex-end" }}>
+              {isActive && <div style={{ width: 0, height: 0, borderLeft: "8px solid transparent", borderRight: "8px solid transparent", borderTop: "9px solid #111" }} />}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Content panel */}
+      <div className="uc-panel" style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 2px 24px rgba(0,0,0,0.10)", display: "grid", gridTemplateColumns: "1.35fr 1fr" }}>
+        <div>
+          <div style={{ background: "#e8e6e0", padding: "8px 14px", borderBottom: "1px solid rgba(0,0,0,0.07)", display: "flex", alignItems: "center", gap: 5 }}>
+            {[0, 1, 2].map(i => <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: "#c0bebb" }} />)}
+          </div>
+          <UCScreenshot idx={activeIdx} />
+        </div>
+        <div style={{ padding: "32px 28px", background: "#fff", borderLeft: "1px solid rgba(0,0,0,0.07)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+          <h3 style={{ fontSize: 15, fontWeight: 500, color: "#111", marginBottom: 10, lineHeight: 1.3 }}>{sys.title}</h3>
+          <p style={{ fontSize: 12, color: "#666", lineHeight: 1.75, marginBottom: 18 }}>{sys.desc}</p>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+            {sys.items.map(item => (
+              <li key={item} style={{ fontSize: 11, color: "#888", padding: "3px 0 3px 14px", position: "relative" as const, lineHeight: 1.5 }}>
+                <span style={{ position: "absolute" as const, left: 0, color: "#ccc" }}>–</span>{item}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );
@@ -461,6 +678,7 @@ export default function Portfolio() {
 
           .grid-3col { grid-template-columns: 1fr !important; }
           .grid-5col { grid-template-columns: 1fr !important; }
+          .uc-panel { grid-template-columns: 1fr !important; }
 
           footer { padding: 20px !important; flex-direction: column !important; gap: 8px !important; text-align: center; }
         }
@@ -480,7 +698,7 @@ export default function Portfolio() {
         <WhatIFix />
         <Systems />
         <Method />
-        <Proof />
+        <UseCases />
         <Notes />
         <About />
         <Contact />
