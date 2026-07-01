@@ -271,122 +271,195 @@ function Method() {
 
 const UC_SYSTEMS = [
   {
-    title: "Recruiting Operating Systems",
-    desc: "Recruiting infrastructures that improve visibility, standardize evaluation, and reduce operational friction throughout the hiring process.",
-    items: ["Candidate pipeline systems", "Interview scorecards", "Hiring dashboards", "Evaluation frameworks"],
-  },
-  {
-    title: "Knowledge Management",
-    desc: "Internal systems that transform scattered information into searchable operational knowledge accessible to the whole team.",
-    items: ["Team wikis", "SOP libraries", "Employee onboarding hubs", "Knowledge repositories"],
-  },
-  {
-    title: "Customer Operations",
-    desc: "Systems designed to support onboarding, customer success, and lifecycle management across the full customer journey.",
-    items: ["Customer onboarding workflows", "Vendor evaluation & tool selection", "Implementation roadmaps", "Support operations documentation"],
-  },
-  {
-    title: "Dashboards & Visibility",
-    desc: "Operational visibility systems designed to help teams track what matters and make better decisions with real-time data.",
-    items: ["KPI dashboards", "Recruiting analytics", "Customer metrics", "Operational reporting"],
-  },
-  {
-    title: "AI & Workflow Automation",
-    desc: "Practical implementations of AI and automation inside existing workflows — where it actually reduces manual load.",
-    items: ["AI-assisted support systems", "Knowledge retrieval systems", "Workflow orchestration", "Process automation"],
-  },
-  {
-    title: "CS Transformation",
-    desc: "End-to-end redesign of customer success functions to drive retention, expansion, and long-term growth.",
-    items: ["CS strategy design", "Health scoring systems", "Renewal workflows", "Expansion playbooks"],
-  },
-  {
+    num: "01",
     title: "Business Operating Infrastructure",
-    desc: "Built from zero into a working operational setup, including the visual identity, public-facing website, backend workflows, service operations, and automation layer that supports the day-to-day running of the business.",
-    items: ["Brand identity and logo direction", "Website structure, copy, front-end, and back-end setup", "Lead capture and customer onboarding flow", "Backend operational workflows", "Automation for recurring admin tasks", "Internal process structure for running the service"],
+    desc: "End-to-end system design for a virtual office service (FlexDesk.gr), covering brand identity, website structure, front-end, back-end, and the automation of daily operational workflows.",
+    items: ["Logo and brand direction", "Website structure and service positioning", "Front-end and back-end setup", "Lead capture and customer onboarding flows", "Backend operations automation", "Internal process workflows"],
+  },
+  {
+    num: "02",
+    title: "Recruiting Operating Systems",
+    desc: "Designed recruiting infrastructures that improved visibility, standardized evaluation, and reduced operational friction throughout the hiring process.",
+    items: ["Candidate pipeline systems", "Interview scorecards", "Hiring dashboards", "Evaluation frameworks", "Application and role tracking", "Recruiting documentation"],
+  },
+  {
+    num: "03",
+    title: "Customer Operations Infrastructure",
+    desc: "Created customer operations systems that supported onboarding, support delivery, escalation handling, lifecycle management, and repeatable customer workflows.",
+    items: ["Customer onboarding workflows", "Support process mapping", "Escalation systems", "Lifecycle frameworks", "AI-assisted support flows", "Support operations documentation"],
+  },
+  {
+    num: "04",
+    title: "Knowledge Management Systems",
+    desc: "Built internal knowledge systems that turned scattered information, team processes, and repeated questions into searchable operational knowledge.",
+    items: ["Team wikis", "SOP libraries", "Internal process documentation", "Employee onboarding hubs", "Knowledge repositories", "Decision and ownership documentation"],
+  },
+  {
+    num: "05",
+    title: "Dashboards & Visibility Systems",
+    desc: "Designed visibility systems that helped teams understand performance, track operational activity, and make better decisions with clearer reporting.",
+    items: ["KPI dashboards", "Recruiting analytics", "Customer metrics", "Operational reporting", "Team performance visibility", "Management reporting views"],
+  },
+  {
+    num: "06",
+    title: "Customer Success Transformation",
+    desc: "Redesigned customer success operations to improve retention, expansion, customer health visibility, and the consistency of account management workflows.",
+    items: ["CS strategy design", "Health scoring systems", "Renewal workflows", "Expansion playbooks", "Churn prevention systems", "Customer lifecycle reporting"],
   },
 ];
 
 function UCScreenshot({ idx }: { idx: number }) {
+  // 00: Business Operating Infrastructure — FlexDesk pricing page
   if (idx === 0) return (
-    <div style={{ background: "#fff", padding: "18px 20px" }}>
-      <p style={{ fontSize: 11, fontWeight: 600, color: "#111", marginBottom: 10 }}>Candidates pipeline</p>
-      <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
+    <div style={{ background: "#eef2f9", padding: "14px 16px", width: "100%" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10, borderBottom: "1px solid #d1d9e8", paddingBottom: 8 }}>
+        <span style={{ fontSize: 12, fontWeight: 700, color: "#1e3a8a" }}>⊡ FlexDesk</span>
+        <span style={{ fontSize: 7, color: "#888" }}>Home · About Us · Services · News · Contact</span>
+      </div>
+      <p style={{ textAlign: "center" as const, fontSize: 11, fontWeight: 700, color: "#111", marginBottom: 4 }}>Choose Your Plan</p>
+      <p style={{ textAlign: "center" as const, fontSize: 7, color: "#555", marginBottom: 12 }}>→ Choose the plan · Fill in the form · Pay online · Receive lease agreement</p>
+      <div style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
+        {[
+          { period: "3 Months", price: "€39.90", total: "Total: €119.70", popular: false },
+          { period: "12 Months", price: "€24.90", total: "Total: €298.80", popular: true },
+          { period: "6 Months", price: "€36.90", total: "Total: €221.40", popular: false },
+        ].map(({ period, price, total, popular }) => (
+          <div key={period} style={{ flex: 1, background: "#fff", border: `${popular ? 2 : 1}px solid ${popular ? "#1e3a8a" : "#d1d5db"}`, borderRadius: 5, padding: "8px 7px", textAlign: "center" as const, marginTop: popular ? -4 : 0, position: "relative" as const }}>
+            {popular && <div style={{ position: "absolute" as const, top: -7, left: "50%", transform: "translateX(-50%)", background: "#1e3a8a", color: "#fff", fontSize: 6, padding: "1px 6px", borderRadius: 8, whiteSpace: "nowrap" as const }}>Most Popular</div>}
+            <p style={{ color: "#3b5bdb", fontSize: 8, fontWeight: 600, marginBottom: 2 }}>{period}</p>
+            <p style={{ fontSize: 14, fontWeight: 700, color: "#111", marginBottom: 2 }}>{price}<span style={{ fontSize: 7, fontWeight: 400 }}>/mo</span></p>
+            <p style={{ fontSize: 7, color: "#888", marginBottom: 5 }}>{total}</p>
+            <div style={{ fontSize: 7, color: "#555", marginBottom: 6, textAlign: "left" as const }}>
+              {["TaxisNet Registration", "Instant Activation", "Support from Our Team"].map(f => (
+                <div key={f} style={{ marginBottom: 2 }}>✓ {f}</div>
+              ))}
+            </div>
+            <div style={{ border: `1px solid ${popular ? "#1e3a8a" : "#3b5bdb"}`, background: popular ? "#1e3a8a" : "#fff", borderRadius: 3, padding: "2px 0", fontSize: 7, color: popular ? "#fff" : "#3b5bdb" }}>Select Plan</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+  // 01: Recruiting Operating Systems
+  if (idx === 1) return (
+    <div style={{ background: "#fff", padding: "14px 16px", width: "100%" }}>
+      <p style={{ fontSize: 10, fontWeight: 600, color: "#111", marginBottom: 10 }}>Candidates pipeline</p>
+      <div style={{ display: "flex", gap: 6, marginBottom: 12 }}>
         {(["Applied", "Shortlisted", "Interviewed"] as const).map((stage, i) => (
-          <div key={stage} style={{ background: "#f5f5f5", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "8px 10px", flex: 1 }}>
-            <p style={{ fontSize: 9, color: "#5b8fe8", marginBottom: 5, fontWeight: 500 }}>● {stage}</p>
-            <div style={{ background: "#fff", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 3, padding: 5, fontSize: 8, color: "#555" }}>
+          <div key={stage} style={{ background: "#f5f5f5", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "7px 8px", flex: 1 }}>
+            <p style={{ fontSize: 8, color: "#5b8fe8", marginBottom: 4, fontWeight: 500 }}>● {stage}</p>
+            <div style={{ background: "#fff", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 3, padding: 4, fontSize: 7, color: "#555" }}>
               {["Joshua Tree", "John Doe", "Mary Dow"][i]}
-              <span style={{ color: i < 2 ? "#e08050" : "#5b8fe8", background: i < 2 ? "#fdf0e8" : "#eef3fd", padding: "1px 4px", borderRadius: 2, fontSize: 7, display: "inline-block", marginTop: 2 }}>{i < 2 ? "Mktg Spec." : "CS Lead"}</span>
+              <span style={{ color: i < 2 ? "#e08050" : "#5b8fe8", background: i < 2 ? "#fdf0e8" : "#eef3fd", padding: "1px 4px", borderRadius: 2, fontSize: 6, display: "inline-block", marginTop: 2 }}>{i < 2 ? "Mktg Spec." : "CS Lead"}</span>
             </div>
           </div>
         ))}
       </div>
-      <div style={{ display: "flex", gap: 10 }}>
-        <div style={{ background: "#f5f5f5", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "10px 14px", textAlign: "center" as const }}>
-          <span style={{ fontSize: 26, fontWeight: 700, color: "#111", display: "block", lineHeight: 1.1 }}>23</span>
-          <span style={{ fontSize: 8, color: "#888" }}>Total candidates</span>
+      <div style={{ display: "flex", gap: 8 }}>
+        <div style={{ background: "#f5f5f5", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "9px 12px", textAlign: "center" as const }}>
+          <span style={{ fontSize: 22, fontWeight: 700, color: "#111", display: "block", lineHeight: 1.1 }}>23</span>
+          <span style={{ fontSize: 7, color: "#888" }}>Total candidates</span>
         </div>
-        <div style={{ flex: 1, background: "#f5f5f5", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "10px 12px" }}>
-          <p style={{ fontSize: 9, color: "#888", marginBottom: 6 }}>Rejected per stage</p>
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 5, height: 44 }}>
-            {[44, 6, 6, 6, 28].map((h, i) => <div key={i} style={{ background: "#f0c050", width: 18, height: h, borderRadius: "2px 2px 0 0" }} />)}
+        <div style={{ flex: 1, background: "#f5f5f5", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "9px 10px" }}>
+          <p style={{ fontSize: 7, color: "#888", marginBottom: 5 }}>Rejected per stage</p>
+          <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: 40 }}>
+            {[44, 6, 6, 6, 28].map((h, i) => <div key={i} style={{ background: "#f0c050", width: 16, height: h, borderRadius: "2px 2px 0 0" }} />)}
           </div>
         </div>
       </div>
     </div>
   );
+  // 02: Customer Operations Infrastructure
   if (idx === 2) return (
-    <div style={{ background: "#fff", padding: "18px 20px" }}>
-      <div style={{ display: "flex", gap: 7, marginBottom: 12, flexWrap: "wrap" as const }}>
+    <div style={{ background: "#fff", padding: "12px 14px", width: "100%" }}>
+      <div style={{ display: "flex", gap: 5, marginBottom: 10, flexWrap: "wrap" as const }}>
         {[["2", "Team members"], ["~600", "tickets/mo"], ["3–4h", "first response"], ["~2d", "resolution"]].map(([val, label]) => (
-          <div key={label} style={{ background: "#fef08a", padding: "7px 10px", borderRadius: 4, fontSize: 8, fontWeight: 600, color: "#555", textAlign: "center" as const }}>
-            <span style={{ display: "block", fontSize: 15, fontWeight: 700, color: "#111", marginBottom: 2 }}>{val}</span>{label}
+          <div key={label} style={{ background: "#fef08a", padding: "6px 8px", borderRadius: 4, fontSize: 7, color: "#555", textAlign: "center" as const }}>
+            <span style={{ display: "block", fontSize: 13, fontWeight: 700, color: "#111", marginBottom: 2 }}>{val}</span>{label}
           </div>
         ))}
       </div>
-      <table style={{ width: "100%", borderCollapse: "collapse" as const, fontSize: 9 }}>
-        <thead><tr style={{ background: "#f0f0f0" }}><td style={{ padding: "5px 7px", fontWeight: 600, color: "#555" }}>Tool</td><td style={{ padding: "5px 7px", fontWeight: 600, color: "#555" }}>Type</td><td style={{ padding: "5px 7px", fontWeight: 600, color: "#555" }}>Cost</td></tr></thead>
+      <div style={{ display: "flex", gap: 4, marginBottom: 10 }}>
+        {[["Phase 1", "Vendor Evaluation"], ["Phase 2", "MVP Implementation"], ["Phase 3", "Advanced Automation"]].map(([p, d]) => (
+          <div key={p} style={{ background: "#bfdbfe", borderRadius: 4, padding: "6px 5px", flex: 1, fontSize: 7, fontWeight: 600, color: "#1e40af", textAlign: "center" as const, lineHeight: 1.4 }}>{p}<br />{d}</div>
+        ))}
+      </div>
+      <table style={{ width: "100%", borderCollapse: "collapse" as const, fontSize: 8 }}>
+        <thead><tr style={{ background: "#f0f0f0" }}>
+          <td style={{ padding: "4px 6px", fontWeight: 600, color: "#555" }}>Tool</td>
+          <td style={{ padding: "4px 6px", fontWeight: 600, color: "#555" }}>Type</td>
+          <td style={{ padding: "4px 6px", fontWeight: 600, color: "#555" }}>Seat Cost</td>
+        </tr></thead>
         <tbody>
           {[["Helpify", "B2B SaaS", "$47/seat"], ["Freshdesk", "All verticals", "$15/seat"], ["Intercom", "B2B SaaS", "$74/seat"], ["Zendesk", "All verticals", "$55/seat"]].map(([tool, type, cost], i) => (
             <tr key={tool} style={{ background: i % 2 === 1 ? "#f9f9f9" : "#fff" }}>
-              <td style={{ padding: "5px 7px", color: "#555" }}>{tool}</td>
-              <td style={{ padding: "5px 7px", color: "#888" }}>{type}</td>
-              <td style={{ padding: "5px 7px", color: "#888" }}>{cost}</td>
+              <td style={{ padding: "4px 6px", color: "#555" }}>{tool}</td>
+              <td style={{ padding: "4px 6px", color: "#888" }}>{type}</td>
+              <td style={{ padding: "4px 6px", color: "#888" }}>{cost}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
   );
+  // 03: Knowledge Management Systems
   if (idx === 3) return (
-    <div style={{ background: "#fff", padding: "18px 20px" }}>
-      <div style={{ display: "flex", gap: 12, marginBottom: 12 }}>
+    <div style={{ background: "#fff", padding: "16px 18px", width: "100%" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+        {["Frequently Asked Questions", "Integrations", "Settings", "Procurement", null, "Discounts"].map((label, i) =>
+          label ? (
+            <div key={label} style={{ border: "1px solid #e5e7eb", borderRadius: 4, padding: "12px 12px 10px", borderLeft: "3px solid #1e3a8a" }}>
+              <p style={{ fontSize: 10, fontWeight: 600, color: "#111", marginBottom: 12, lineHeight: 1.35 }}>{label}</p>
+              <p style={{ fontSize: 8, color: "#3b5bdb" }}>See more →</p>
+            </div>
+          ) : (
+            <div key={i} />
+          )
+        )}
+      </div>
+    </div>
+  );
+  // 04: Dashboards & Visibility Systems
+  if (idx === 4) return (
+    <div style={{ background: "#fff", padding: "12px 14px", width: "100%" }}>
+      <div style={{ display: "flex", gap: 8, marginBottom: 8 }}>
         {[["New Total", "6,169"], ["Cancellations", "3,816"]].map(([label, val]) => (
-          <div key={label} style={{ flex: 1, border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "10px 14px" }}>
-            <p style={{ fontSize: 9, color: "#888", marginBottom: 3 }}>{label}</p>
-            <p style={{ fontSize: 26, fontWeight: 700, color: "#111" }}>{val}</p>
+          <div key={label} style={{ flex: 1, border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "8px 12px" }}>
+            <p style={{ fontSize: 8, color: "#888", marginBottom: 2 }}>{label}</p>
+            <p style={{ fontSize: 22, fontWeight: 700, color: "#111" }}>{val}</p>
           </div>
         ))}
       </div>
-      <div style={{ border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "12px 14px" }}>
-        <p style={{ fontSize: 9, color: "#888", marginBottom: 8 }}>New — by date</p>
-        <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: 52 }}>
-          {[22, 30, 18, 16, 22, 28, 34, 40, 52, 36, 12, 8].map((h, i) => (
-            <div key={i} style={{ background: "#4a9be8", width: 14, height: h, borderRadius: "2px 2px 0 0", opacity: h > 40 ? 1 : h > 20 ? 0.8 : 0.6 }} />
+      <div style={{ border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "10px 12px", marginBottom: 6 }}>
+        <p style={{ fontSize: 8, color: "#888", marginBottom: 6 }}>New — by date</p>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 48 }}>
+          {[22, 30, 18, 16, 22, 28, 34, 40, 52, 36, 12, 8, 16, 24, 38, 44, 30, 22, 18, 14].map((h, i) => (
+            <div key={i} style={{ background: "#4a90d9", flex: 1, height: `${Math.round(h / 52 * 100)}%`, borderRadius: "2px 2px 0 0", opacity: h > 40 ? 1 : h > 20 ? 0.8 : 0.6 }} />
+          ))}
+        </div>
+      </div>
+      <div style={{ border: "1px solid rgba(0,0,0,0.07)", borderRadius: 6, padding: "10px 12px" }}>
+        <p style={{ fontSize: 8, color: "#888", marginBottom: 6 }}>Cancellations — by date</p>
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 36 }}>
+          {[44, 52, 38, 60, 48, 34, 28, 50, 40, 46, 36, 34, 40, 52, 56, 52, 36, 40, 40, 36].map((h, i) => (
+            <div key={i} style={{ background: "#4a90d9", flex: 1, height: `${Math.round(h / 60 * 100)}%`, borderRadius: "2px 2px 0 0", opacity: 0.75 }} />
           ))}
         </div>
       </div>
     </div>
   );
-  if (idx === 5) return (
-    <div style={{ background: "#fff", padding: "18px 20px" }}>
-      <p style={{ fontSize: 11, fontWeight: 600, color: "#111", marginBottom: 8 }}>Post-Sales Ownership & Execution — RACI</p>
+  // 05: Customer Success Transformation — RACI
+  return (
+    <div style={{ background: "#fff", padding: "14px 16px", width: "100%" }}>
+      <p style={{ fontSize: 10, fontWeight: 600, color: "#111", marginBottom: 6 }}>Post-Sales Ownership & Execution — RACI</p>
+      <div style={{ fontSize: 7, color: "#666", marginBottom: 8, display: "flex", gap: 8 }}>
+        <span>R = Responsible</span><span>A = Accountable</span><span>C = Consulted</span><span>I = Informed</span>
+      </div>
       <table style={{ width: "100%", borderCollapse: "collapse" as const, fontSize: 9 }}>
         <thead><tr style={{ background: "#1a5c3a", color: "#fff" }}>
           <td style={{ padding: "5px 7px", fontWeight: 600 }}>Activity</td>
-          <td style={{ padding: "5px 7px", textAlign: "center" as const }}>CSM</td>
-          <td style={{ padding: "5px 7px", textAlign: "center" as const }}>Credits SME</td>
+          <td style={{ padding: "5px 7px", textAlign: "center" as const, fontWeight: 600 }}>CSM</td>
+          <td style={{ padding: "5px 7px", textAlign: "center" as const, fontWeight: 600 }}>Credits SME</td>
         </tr></thead>
         <tbody>
           {[
@@ -404,11 +477,6 @@ function UCScreenshot({ idx }: { idx: number }) {
           ))}
         </tbody>
       </table>
-    </div>
-  );
-  return (
-    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 200, color: "#ccc", fontSize: 12, background: "#fff", fontFamily: MONO }}>
-      Screenshots coming soon
     </div>
   );
 }
@@ -500,20 +568,23 @@ function UseCases() {
       </div>
 
       {/* Content panel */}
-      <div className="uc-panel" style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 2px 24px rgba(0,0,0,0.10)", display: "grid", gridTemplateColumns: "1.35fr 1fr" }}>
-        <div>
-          <div style={{ background: "#e8e6e0", padding: "8px 14px", borderBottom: "1px solid rgba(0,0,0,0.07)", display: "flex", alignItems: "center", gap: 5 }}>
+      <div className="uc-panel" style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 2px 24px rgba(0,0,0,0.10)", display: "grid", gridTemplateColumns: "0.6fr 1fr" }}>
+        <div style={{ background: "#f0efec", display: "flex", flexDirection: "column" as const }}>
+          <div style={{ background: "#e8e6e0", padding: "8px 14px", borderBottom: "1px solid rgba(0,0,0,0.07)", display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
             {[0, 1, 2].map(i => <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: "#c0bebb" }} />)}
           </div>
-          <UCScreenshot idx={activeIdx} />
+          <div className="uc-screenshot-wrap" style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flex: 1, overflow: "hidden" }}>
+            <UCScreenshot idx={activeIdx} />
+          </div>
         </div>
         <div style={{ padding: "32px 28px", background: "#fff", borderLeft: "1px solid rgba(0,0,0,0.07)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          <h3 style={{ fontSize: 15, fontWeight: 500, color: "#111", marginBottom: 10, lineHeight: 1.3 }}>{sys.title}</h3>
-          <p style={{ fontSize: 12, color: "#666", lineHeight: 1.75, marginBottom: 18 }}>{sys.desc}</p>
-          <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+          <p style={{ fontSize: 10, color: "#bbb", letterSpacing: "0.12em", fontWeight: 500, marginBottom: 8, textTransform: "uppercase" as const }}>{sys.num} / 06</p>
+          <h3 style={{ fontSize: 18, fontWeight: 500, color: "#111", marginBottom: 14, lineHeight: 1.25 }}>{sys.title}</h3>
+          <p style={{ fontSize: 12, color: "#555", lineHeight: 1.8, marginBottom: 18 }}>{sys.desc}</p>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px 16px" }}>
             {sys.items.map(item => (
               <li key={item} style={{ fontSize: 11, color: "#888", padding: "3px 0 3px 14px", position: "relative" as const, lineHeight: 1.5 }}>
-                <span style={{ position: "absolute" as const, left: 0, color: "#ccc" }}>–</span>{item}
+                <span style={{ position: "absolute" as const, left: 0, color: "#888" }}>•</span>{item}
               </li>
             ))}
           </ul>
@@ -679,6 +750,7 @@ export default function Portfolio() {
           .grid-3col { grid-template-columns: 1fr !important; }
           .grid-5col { grid-template-columns: 1fr !important; }
           .uc-panel { grid-template-columns: 1fr !important; }
+          .uc-screenshot-wrap { max-height: 220px; }
 
           footer { padding: 20px !important; flex-direction: column !important; gap: 8px !important; text-align: center; }
         }
