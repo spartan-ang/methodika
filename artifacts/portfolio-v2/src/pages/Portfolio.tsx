@@ -31,7 +31,6 @@ function Nav() {
     { label: "Philosophy", href: "#philosophy" },
     { label: "Systems", href: "#systems" },
     { label: "Method", href: "#method" },
-    { label: "Use Cases", href: "#use-cases" },
     { label: "Notes", href: "#notes" },
     { label: "About", href: "#about" },
     { label: "Contact", href: "#contact" },
@@ -204,36 +203,111 @@ function WhatIFix() {
   );
 }
 
-function SysCard({ tag, title, includes }: { tag: string; title: string; includes: string[] }) {
-  const { hovered, ...h } = useHover();
-  return (
-    <div {...h} style={{ background: hovered ? "#fafafa" : "#fff", padding: "28px 24px", transition: "background 0.15s", fontFamily: MONO }}>
-      <p style={{ fontSize: 10, letterSpacing: "0.1em", color: "#888", textTransform: "uppercase" as const, marginBottom: 10, fontWeight: 500 }}>{tag}</p>
-      <h3 style={{ fontSize: 14, fontWeight: 500, marginBottom: 12, color: "#111" }}>{title}</h3>
-      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-        {includes.map(item => (
-          <li key={item} style={{ fontSize: 12, color: "#666", padding: "3px 0 3px 14px", position: "relative" as const }}>
-            <span style={{ position: "absolute" as const, left: 0, color: "#bbb" }}>–</span>{item}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
 function Systems() {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [offset, setOffset] = useState(0);
+  const totalPages = Math.ceil(UC_SYSTEMS.length / UC_PER_PAGE);
+  const visibleStart = offset * UC_PER_PAGE;
+  const sys = UC_SYSTEMS[activeIdx];
+
+  const shiftCards = (dir: number) => {
+    const next = offset + dir;
+    if (next < 0 || next >= totalPages) return;
+    setOffset(next);
+    const newStart = next * UC_PER_PAGE;
+    if (activeIdx < newStart || activeIdx >= newStart + UC_PER_PAGE) {
+      setActiveIdx(newStart);
+    }
+  };
+
   return (
     <section id="systems" style={{ padding: "72px 40px", borderBottom: "1px solid rgba(0,0,0,0.1)", maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
-      <SectionTag label="Systems" />
-      <p style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase" as const, color: "#bbb", marginBottom: 4, fontWeight: 500 }}>Systems in Production</p>
-      <h2 style={{ fontSize: 26, fontWeight: 500, letterSpacing: "-0.01em", marginBottom: 32, lineHeight: 1.2, color: "#111" }}>A selection of operational systems designed across startups and growing companies.</h2>
-      <div className="grid-3col" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden" }}>
-        <SysCard tag="Recruiting OS" title="Recruiting OS" includes={["Candidate pipelines", "Interview scorecards", "Hiring dashboards", "Evaluation frameworks", "Decision workflows"]} />
-        <SysCard tag="Customer Ops" title="Customer Operations Infrastructure" includes={["Customer lifecycle design", "Onboarding workflows", "Escalation systems", "Success processes", "Support operations"]} />
-        <SysCard tag="Knowledge Mgmt" title="Knowledge Management System" includes={["Team documentation", "SOP libraries", "Internal wikis", "Employee onboarding hubs", "Process repositories"]} />
-        <SysCard tag="AI Support" title="AI Support System" includes={["Knowledge retrieval", "AI-assisted support", "Escalation routing", "Workflow automation"]} />
-        <SysCard tag="Visibility" title="Visibility & Reporting Systems" includes={["KPI dashboards", "Recruiting analytics", "Customer reporting", "Team performance visibility"]} />
-        <SysCard tag="Customer Success" title="Customer Success Transformation" includes={["CS strategy design", "Health scoring systems", "Renewal workflows", "Expansion playbooks", "Churn prevention systems"]} />
+      <div style={{ textAlign: "center" as const }}>
+        <SectionTag label="Systems" />
+      </div>
+      <div style={{ textAlign: "center" as const, marginBottom: 36 }}>
+        <p style={{ fontSize: 17, fontWeight: 500, color: "#111", lineHeight: 1.5, marginBottom: 10 }}>
+          Real systems.<br />Real workflows.<br />Real operational infrastructure.
+        </p>
+        <p style={{ fontSize: 13, color: "#888", lineHeight: 1.7 }}>
+          A collection of systems designed to improve clarity, consistency, scalability, and operational efficiency.
+        </p>
+      </div>
+
+      {/* Card navigation */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <button
+          type="button"
+          onClick={() => shiftCards(-1)}
+          style={{ background: "rgba(255,255,255,0.8)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "50%", width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, color: offset === 0 ? "#e0e0e0" : "#888", fontSize: 18, lineHeight: 1, fontFamily: MONO }}
+        >‹</button>
+        <div style={{ display: "flex", gap: 28, flex: 1 }}>
+          {Array.from({ length: UC_PER_PAGE }, (_, j) => {
+            const ucSys = UC_SYSTEMS[visibleStart + j];
+            if (!ucSys) return <div key={j} style={{ flex: 1 }} />;
+            const realIdx = visibleStart + j;
+            const isActive = realIdx === activeIdx;
+            return (
+              <button
+                key={realIdx}
+                type="button"
+                onClick={() => setActiveIdx(realIdx)}
+                style={{
+                  flex: 1, borderRadius: 10, padding: "8px 12px", cursor: "pointer",
+                  border: `1px solid ${isActive ? "#111" : "rgba(0,0,0,0.08)"}`,
+                  background: isActive ? "#111" : "#fff",
+                  boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+                  textAlign: "center" as const,
+                  fontFamily: MONO,
+                }}
+              >
+                <span style={{ fontSize: 13, fontWeight: 500, color: isActive ? "#fff" : "#111", lineHeight: 1.4, display: "block" }}>{ucSys.title}</span>
+              </button>
+            );
+          })}
+        </div>
+        <button
+          type="button"
+          onClick={() => shiftCards(1)}
+          style={{ background: "rgba(255,255,255,0.8)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "50%", width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, color: offset >= totalPages - 1 ? "#e0e0e0" : "#888", fontSize: 18, lineHeight: 1, fontFamily: MONO }}
+        >›</button>
+      </div>
+
+      {/* Caret row */}
+      <div style={{ display: "flex", gap: 28, marginLeft: 44, marginRight: 44, height: 14, pointerEvents: "none" as const }}>
+        {Array.from({ length: UC_PER_PAGE }, (_, j) => {
+          const realIdx = visibleStart + j;
+          const hasSys = !!UC_SYSTEMS[realIdx];
+          const isActive = hasSys && realIdx === activeIdx;
+          return (
+            <div key={j} style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "flex-end" }}>
+              {isActive && <div style={{ width: 0, height: 0, borderLeft: "8px solid transparent", borderRight: "8px solid transparent", borderTop: "9px solid #111" }} />}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Content panel */}
+      <div className="uc-panel" style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 2px 24px rgba(0,0,0,0.10)", display: "grid", gridTemplateColumns: "0.6fr 1fr" }}>
+        <div style={{ background: "#f0efec", display: "flex", flexDirection: "column" as const }}>
+          <div style={{ background: "#e8e6e0", padding: "8px 14px", borderBottom: "1px solid rgba(0,0,0,0.07)", display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
+            {[0, 1, 2].map(i => <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: "#c0bebb" }} />)}
+          </div>
+          <div className="uc-screenshot-wrap" style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flex: 1, overflow: "hidden" }}>
+            <UCScreenshot idx={activeIdx} />
+          </div>
+        </div>
+        <div style={{ padding: "32px 28px", background: "#fff", borderLeft: "1px solid rgba(0,0,0,0.07)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+          <h3 style={{ fontSize: 18, fontWeight: 500, color: "#111", marginBottom: 14, lineHeight: 1.25 }}>{sys.title}</h3>
+          <p style={{ fontSize: 12, color: "#555", lineHeight: 1.8, marginBottom: 18 }}>{sys.desc}</p>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px 16px" }}>
+            {sys.items.map(item => (
+              <li key={item} style={{ fontSize: 11, color: "#888", padding: "3px 0 3px 14px", position: "relative" as const, lineHeight: 1.5 }}>
+                <span style={{ position: "absolute" as const, left: 0, color: "#888" }}>•</span>{item}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );
@@ -483,116 +557,6 @@ function UCScreenshot({ idx }: { idx: number }) {
 
 const UC_PER_PAGE = 3;
 
-function UseCases() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const [offset, setOffset] = useState(0);
-  const totalPages = Math.ceil(UC_SYSTEMS.length / UC_PER_PAGE);
-  const visibleStart = offset * UC_PER_PAGE;
-  const sys = UC_SYSTEMS[activeIdx];
-
-  const shiftCards = (dir: number) => {
-    const next = offset + dir;
-    if (next < 0 || next >= totalPages) return;
-    setOffset(next);
-    const newStart = next * UC_PER_PAGE;
-    if (activeIdx < newStart || activeIdx >= newStart + UC_PER_PAGE) {
-      setActiveIdx(newStart);
-    }
-  };
-
-  return (
-    <section id="use-cases" style={{ padding: "72px 40px", borderBottom: "1px solid rgba(0,0,0,0.1)", maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
-      <div style={{ textAlign: "center" as const }}>
-        <SectionTag label="Use Cases" />
-      </div>
-      <div style={{ textAlign: "center" as const, marginBottom: 36 }}>
-        <p style={{ fontSize: 17, fontWeight: 500, color: "#111", lineHeight: 1.5, marginBottom: 10 }}>
-          Real systems.<br />Real workflows.<br />Real operational infrastructure.
-        </p>
-        <p style={{ fontSize: 13, color: "#888", lineHeight: 1.7 }}>
-          A collection of systems designed to improve clarity, consistency, scalability, and operational efficiency.
-        </p>
-      </div>
-
-      {/* Card navigation */}
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <button
-          type="button"
-          onClick={() => shiftCards(-1)}
-          style={{ background: "rgba(255,255,255,0.8)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "50%", width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, color: offset === 0 ? "#e0e0e0" : "#888", fontSize: 18, lineHeight: 1, fontFamily: MONO }}
-        >‹</button>
-        <div style={{ display: "flex", gap: 28, flex: 1 }}>
-          {Array.from({ length: UC_PER_PAGE }, (_, j) => {
-            const ucSys = UC_SYSTEMS[visibleStart + j];
-            if (!ucSys) return <div key={j} style={{ flex: 1 }} />;
-            const realIdx = visibleStart + j;
-            const isActive = realIdx === activeIdx;
-            return (
-              <button
-                key={realIdx}
-                type="button"
-                onClick={() => setActiveIdx(realIdx)}
-                style={{
-                  flex: 1, borderRadius: 10, padding: "8px 12px", cursor: "pointer",
-                  border: `1px solid ${isActive ? "#111" : "rgba(0,0,0,0.08)"}`,
-                  background: isActive ? "#111" : "#fff",
-                  boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-                  textAlign: "center" as const,
-                  fontFamily: MONO,
-                }}
-              >
-                <span style={{ fontSize: 13, fontWeight: 500, color: isActive ? "#fff" : "#111", lineHeight: 1.4, display: "block" }}>{ucSys.title}</span>
-              </button>
-            );
-          })}
-        </div>
-        <button
-          type="button"
-          onClick={() => shiftCards(1)}
-          style={{ background: "rgba(255,255,255,0.8)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "50%", width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, color: offset >= totalPages - 1 ? "#e0e0e0" : "#888", fontSize: 18, lineHeight: 1, fontFamily: MONO }}
-        >›</button>
-      </div>
-
-      {/* Caret row */}
-      <div style={{ display: "flex", gap: 28, marginLeft: 44, marginRight: 44, height: 14, pointerEvents: "none" as const }}>
-        {Array.from({ length: UC_PER_PAGE }, (_, j) => {
-          const realIdx = visibleStart + j;
-          const hasSys = !!UC_SYSTEMS[realIdx];
-          const isActive = hasSys && realIdx === activeIdx;
-          return (
-            <div key={j} style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "flex-end" }}>
-              {isActive && <div style={{ width: 0, height: 0, borderLeft: "8px solid transparent", borderRight: "8px solid transparent", borderTop: "9px solid #111" }} />}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Content panel */}
-      <div className="uc-panel" style={{ borderRadius: 12, overflow: "hidden", boxShadow: "0 2px 24px rgba(0,0,0,0.10)", display: "grid", gridTemplateColumns: "0.6fr 1fr" }}>
-        <div style={{ background: "#f0efec", display: "flex", flexDirection: "column" as const }}>
-          <div style={{ background: "#e8e6e0", padding: "8px 14px", borderBottom: "1px solid rgba(0,0,0,0.07)", display: "flex", alignItems: "center", gap: 5, flexShrink: 0 }}>
-            {[0, 1, 2].map(i => <div key={i} style={{ width: 8, height: 8, borderRadius: "50%", background: "#c0bebb" }} />)}
-          </div>
-          <div className="uc-screenshot-wrap" style={{ display: "flex", justifyContent: "center", alignItems: "flex-start", flex: 1, overflow: "hidden" }}>
-            <UCScreenshot idx={activeIdx} />
-          </div>
-        </div>
-        <div style={{ padding: "32px 28px", background: "#fff", borderLeft: "1px solid rgba(0,0,0,0.07)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          <h3 style={{ fontSize: 18, fontWeight: 500, color: "#111", marginBottom: 14, lineHeight: 1.25 }}>{sys.title}</h3>
-          <p style={{ fontSize: 12, color: "#555", lineHeight: 1.8, marginBottom: 18 }}>{sys.desc}</p>
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px 16px" }}>
-            {sys.items.map(item => (
-              <li key={item} style={{ fontSize: 11, color: "#888", padding: "3px 0 3px 14px", position: "relative" as const, lineHeight: 1.5 }}>
-                <span style={{ position: "absolute" as const, left: 0, color: "#888" }}>•</span>{item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function NoteCard({ idx, title, body }: { idx: string; title: string; body: string }) {
   const { hovered, ...h } = useHover();
   return (
@@ -769,7 +733,6 @@ export default function Portfolio() {
         <WhatIFix />
         <Systems />
         <Method />
-        <UseCases />
         <Notes />
         <About />
         <Contact />
