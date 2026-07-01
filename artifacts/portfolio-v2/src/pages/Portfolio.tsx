@@ -101,7 +101,7 @@ function Hero() {
       <div className="hero-left" style={{ padding: "80px 40px", display: "flex", flexDirection: "column", justifyContent: "center", borderRight: "1px solid rgba(0,0,0,0.06)" }}>
         <p style={{ fontSize: 12, color: "#888", marginBottom: 20 }}>// Operational design for growing companies.</p>
         <HeroLogo />
-        <p style={{ fontSize: 14, color: "#555", maxWidth: 420, lineHeight: 1.75, marginBottom: 10 }}>I help startups eliminate operational chaos, design scalable workflows, and implement practical AI where it actually helps.</p>
+        <p style={{ fontSize: 14, color: "#5B8FA8", maxWidth: 420, lineHeight: 1.75, marginBottom: 10 }}>I help startups eliminate operational chaos, design scalable workflows, and implement practical AI where it actually helps.</p>
         <p style={{ fontSize: 12, color: "#bbb", maxWidth: 420, marginBottom: 32 }}>Built through experience across Customer Success, Operations, Support, Recruiting, and Product teams.</p>
         <a href="https://calendar.app.google/VvdEm5uvGFgz29hz8" target="_blank" rel="noopener noreferrer" {...h} style={{ display: "inline-block", alignSelf: "flex-start", fontSize: 13, fontWeight: 500, padding: "10px 22px", borderRadius: 6, border: "1px solid rgba(0,0,0,0.25)", background: hovered ? "#f5f5f5" : "#fff", color: "#111", textDecoration: "none", transition: "background 0.15s" }}>
           Book a Conversation
@@ -154,7 +154,7 @@ function Philosophy() {
             ))}
           </ul>
           <div style={{ borderLeft: "2px solid rgba(0,0,0,0.15)", paddingLeft: 16, margin: "24px 0" }}>
-            <span style={{ fontSize: 18, fontWeight: 500, display: "block", marginBottom: 4, color: "#111" }}>μεθοδικά</span>
+            <span style={{ fontSize: 18, fontWeight: 500, display: "block", marginBottom: 4, color: "#5B8FA8" }}>μεθοδικά</span>
             <span style={{ fontSize: 13, color: "#888", lineHeight: 1.6 }}>The Greek word for working systematically and with purpose.</span>
           </div>
           <p style={{ fontSize: 13, color: "#555", marginBottom: 6 }}>Working methodically.</p>
@@ -673,7 +673,7 @@ function Contact() {
           <p style={{ fontSize: 13, color: "#555", marginBottom: 10, lineHeight: 1.75 }}>If something feels messy, slow, manual, or difficult to scale, that's usually where I can help.</p>
           <p style={{ fontSize: 13, color: "#555", marginBottom: 10, lineHeight: 1.75 }}>Whether you're building a recruiting process, improving customer operations, documenting internal knowledge, or exploring AI workflows, every engagement starts the same way:</p>
           <p style={{ fontSize: 13, fontWeight: 500, color: "#111", marginBottom: 28 }}>Understanding how the system works today.</p>
-          <a href="https://calendar.app.google/VvdEm5uvGFgz29hz8" target="_blank" rel="noopener noreferrer" {...h} style={{ display: "inline-block", fontSize: 13, fontWeight: 500, padding: "10px 22px", borderRadius: 6, border: "1px solid rgba(0,0,0,0.25)", background: hovered ? "#f5f5f5" : "#fff", color: "#111", textDecoration: "none", transition: "background 0.15s" }}>
+          <a href="https://calendar.app.google/VvdEm5uvGFgz29hz8" target="_blank" rel="noopener noreferrer" {...h} style={{ display: "inline-block", fontSize: 13, fontWeight: 500, padding: "10px 22px", borderRadius: 6, border: "1px solid rgba(0,0,0,0.25)", background: hovered ? "#f5f5f5" : "#fff", color: "#5B8FA8", textDecoration: "none", transition: "background 0.15s" }}>
             Book a Conversation
           </a>
         </div>
