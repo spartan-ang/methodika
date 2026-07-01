@@ -521,7 +521,7 @@ function UseCases() {
           onClick={() => shiftCards(-1)}
           style={{ background: "rgba(255,255,255,0.8)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: "50%", width: 34, height: 34, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, color: offset === 0 ? "#e0e0e0" : "#888", fontSize: 18, lineHeight: 1, fontFamily: MONO }}
         >‹</button>
-        <div style={{ display: "flex", gap: 10, flex: 1 }}>
+        <div style={{ display: "flex", gap: 20, flex: 1 }}>
           {Array.from({ length: UC_PER_PAGE }, (_, j) => {
             const ucSys = UC_SYSTEMS[visibleStart + j];
             if (!ucSys) return <div key={j} style={{ flex: 1 }} />;
@@ -533,7 +533,7 @@ function UseCases() {
                 type="button"
                 onClick={() => setActiveIdx(realIdx)}
                 style={{
-                  flex: 1, borderRadius: 10, padding: "20px 18px", cursor: "pointer",
+                  flex: 1, borderRadius: 10, padding: "12px 14px", cursor: "pointer",
                   border: `1px solid ${isActive ? "#111" : "rgba(0,0,0,0.08)"}`,
                   background: isActive ? "#111" : "#fff",
                   boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
@@ -554,7 +554,7 @@ function UseCases() {
       </div>
 
       {/* Caret row */}
-      <div style={{ display: "flex", gap: 10, marginLeft: 44, marginRight: 44, height: 14, pointerEvents: "none" as const }}>
+      <div style={{ display: "flex", gap: 20, marginLeft: 44, marginRight: 44, height: 14, pointerEvents: "none" as const }}>
         {Array.from({ length: UC_PER_PAGE }, (_, j) => {
           const realIdx = visibleStart + j;
           const hasSys = !!UC_SYSTEMS[realIdx];
@@ -578,7 +578,6 @@ function UseCases() {
           </div>
         </div>
         <div style={{ padding: "32px 28px", background: "#fff", borderLeft: "1px solid rgba(0,0,0,0.07)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          <p style={{ fontSize: 10, color: "#bbb", letterSpacing: "0.12em", fontWeight: 500, marginBottom: 8, textTransform: "uppercase" as const }}>{sys.num} / 06</p>
           <h3 style={{ fontSize: 18, fontWeight: 500, color: "#111", marginBottom: 14, lineHeight: 1.25 }}>{sys.title}</h3>
           <p style={{ fontSize: 12, color: "#555", lineHeight: 1.8, marginBottom: 18 }}>{sys.desc}</p>
           <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px 16px" }}>
