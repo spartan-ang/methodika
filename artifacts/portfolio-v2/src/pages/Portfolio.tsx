@@ -96,7 +96,7 @@ function Hero() {
         <HeroLogo />
         <p style={{ fontSize: 14, color: "#555", maxWidth: 420, lineHeight: 1.75, marginBottom: 10 }}>I help startups eliminate operational chaos, design scalable workflows, and implement practical AI where it actually helps.</p>
         <p style={{ fontSize: 12, color: "#bbb", maxWidth: 420, marginBottom: 32 }}>Built through experience across Customer Success, Operations, Support, Recruiting, and Product teams.</p>
-        <a href="mailto:angeliki@methodika.co" {...h} style={{ display: "inline-block", alignSelf: "flex-start", fontSize: 13, fontWeight: 500, padding: "10px 22px", borderRadius: 6, border: "1px solid rgba(0,0,0,0.25)", background: hovered ? "#f5f5f5" : "#fff", color: "#111", textDecoration: "none", transition: "background 0.15s" }}>
+        <a href="https://calendar.app.google/VvdEm5uvGFgz29hz8" target="_blank" rel="noopener noreferrer" {...h} style={{ display: "inline-block", alignSelf: "flex-start", fontSize: 13, fontWeight: 500, padding: "10px 22px", borderRadius: 6, border: "1px solid rgba(0,0,0,0.25)", background: hovered ? "#f5f5f5" : "#fff", color: "#111", textDecoration: "none", transition: "background 0.15s" }}>
           Book a Conversation
         </a>
       </div>
@@ -405,7 +405,7 @@ function Contact() {
           <p style={{ fontSize: 13, color: "#555", marginBottom: 10, lineHeight: 1.75 }}>If something feels messy, slow, manual, or difficult to scale, that's usually where I can help.</p>
           <p style={{ fontSize: 13, color: "#555", marginBottom: 10, lineHeight: 1.75 }}>Whether you're building a recruiting process, improving customer operations, documenting internal knowledge, or exploring AI workflows, every engagement starts the same way:</p>
           <p style={{ fontSize: 13, fontWeight: 500, color: "#111", marginBottom: 28 }}>Understanding how the system works today.</p>
-          <a href="mailto:angeliki@methodika.co" {...h} style={{ display: "inline-block", fontSize: 13, fontWeight: 500, padding: "10px 22px", borderRadius: 6, border: "1px solid rgba(0,0,0,0.25)", background: hovered ? "#f5f5f5" : "#fff", color: "#111", textDecoration: "none", transition: "background 0.15s" }}>
+          <a href="https://calendar.app.google/VvdEm5uvGFgz29hz8" target="_blank" rel="noopener noreferrer" {...h} style={{ display: "inline-block", fontSize: 13, fontWeight: 500, padding: "10px 22px", borderRadius: 6, border: "1px solid rgba(0,0,0,0.25)", background: hovered ? "#f5f5f5" : "#fff", color: "#111", textDecoration: "none", transition: "background 0.15s" }}>
             Book a Conversation
           </a>
         </div>
