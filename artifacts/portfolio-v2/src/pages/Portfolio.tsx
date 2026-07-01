@@ -313,31 +313,48 @@ function Systems() {
   );
 }
 
-function MethodStep({ num, title, lines }: { num: string; title: string; lines: string[] }) {
-  const { hovered, ...h } = useHover();
-  return (
-    <div {...h} style={{ background: hovered ? "#fafafa" : "#fff", padding: "28px 24px", transition: "background 0.15s", fontFamily: MONO }}>
-      <p style={{ fontSize: 11, color: "#bbb", letterSpacing: "0.1em", marginBottom: 12, fontWeight: 500 }}>{num}</p>
-      <h3 style={{ fontSize: 14, fontWeight: 500, marginBottom: 12, lineHeight: 1.4, color: "#111" }}>{title}</h3>
-      {lines.map((l, i) => <p key={i} style={{ fontSize: 12, color: "#666", marginBottom: 4, lineHeight: 1.75 }}>{l}</p>)}
-    </div>
-  );
-}
+const AEGEAN = "#5B8FA8";
+
+const METHOD_STEPS = [
+  { num: "01", title: "Understand the System", lines: ["Before changing anything, understand how work actually happens.", "Observe. Listen. Map the reality.", "Not the process diagram. The real process."] },
+  { num: "02", title: "Find the Bottlenecks", lines: ["Identify friction. Duplication. Unclear ownership.", "Manual work. Dependencies.", "The goal is clarity."] },
+  { num: "03", title: "Design the Workflow", lines: ["Create systems people will actually use.", "Simple systems scale.", "Complex systems get ignored."] },
+  { num: "04", title: "Document the Process", lines: ["If it isn't documented, it doesn't scale.", "Documentation is not administration.", "Documentation is infrastructure."] },
+  { num: "05", title: "Automate Intentionally", lines: ["Automation is the last step. Not the first.", "A broken workflow automated is still a broken workflow.", "First understand. Then simplify. Then automate."] },
+];
 
 function Method() {
-  const steps = [
-    { num: "01", title: "Understand the System", lines: ["Before changing anything, understand how work actually happens.", "Observe.", "Listen.", "Map the reality.", "Not the process diagram.", "The real process."] },
-    { num: "02", title: "Find the Bottlenecks", lines: ["Identify friction.", "Duplication.", "Unclear ownership.", "Manual work.", "Dependencies.", "The goal is clarity."] },
-    { num: "03", title: "Design the Workflow", lines: ["Create systems people will actually use.", "Simple systems scale.", "Complex systems get ignored."] },
-    { num: "04", title: "Document the Process", lines: ["If it isn't documented, it doesn't scale.", "Documentation is not administration.", "Documentation is infrastructure."] },
-    { num: "05", title: "Automate Intentionally", lines: ["Automation is the last step.", "Not the first.", "A broken workflow automated is still a broken workflow.", "First understand.", "Then simplify.", "Then automate."] },
-  ];
+  const [active, setActive] = useState(0);
+  const step = METHOD_STEPS[active];
   return (
     <section id="method" style={{ padding: "72px 40px", borderBottom: "1px solid rgba(0,0,0,0.1)", maxWidth: 1100, margin: "0 auto", fontFamily: MONO }}>
       <SectionTag label="Method" />
-      <h2 style={{ fontSize: 26, fontWeight: 500, letterSpacing: "-0.01em", marginBottom: 32, lineHeight: 1.2, color: "#111" }}>The Methodika Way</h2>
-      <div className="grid-5col" style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 1, background: "rgba(0,0,0,0.1)", border: "1px solid rgba(0,0,0,0.1)", borderRadius: 12, overflow: "hidden" }}>
-        {steps.map(s => <MethodStep key={s.num} {...s} />)}
+      <h2 style={{ fontSize: 26, fontWeight: 500, letterSpacing: "-0.01em", marginBottom: 56, lineHeight: 1.2, color: "#111" }}>The Methodika Way</h2>
+
+      {/* Circle steps */}
+      <div style={{ position: "relative", display: "flex", justifyContent: "space-between", marginBottom: 48 }}>
+        <div style={{ position: "absolute", top: 28, left: "calc(10% + 28px)", right: "calc(10% + 28px)", height: 1, background: "rgba(0,0,0,0.1)" }} />
+        {METHOD_STEPS.map((s, i) => (
+          <div key={s.num} onClick={() => setActive(i)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14, cursor: "pointer", width: "20%", position: "relative", zIndex: 1 }}>
+            <div style={{
+              width: 56, height: 56, borderRadius: "50%",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 13, fontWeight: 500, letterSpacing: "0.04em",
+              transition: "all 0.2s",
+              background: i === active ? AEGEAN : "#fff",
+              color: i === active ? "#fff" : "#aaa",
+              border: i === active ? `2px solid ${AEGEAN}` : "1.5px solid rgba(0,0,0,0.12)",
+              boxShadow: i === active ? "0 4px 16px rgba(91,143,168,0.3)" : "none",
+            }}>{s.num}</div>
+            <p style={{ fontSize: 12, fontWeight: i === active ? 500 : 400, color: i === active ? "#111" : "#aaa", textAlign: "center" as const, lineHeight: 1.5, margin: 0 }}>{s.title}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Description panel */}
+      <div style={{ background: "#f9f9f9", borderRadius: 12, padding: "32px 36px", border: "1px solid rgba(0,0,0,0.06)" }}>
+        <p style={{ fontSize: 15, fontWeight: 500, color: "#111", marginBottom: 14 }}>{step.title}</p>
+        {step.lines.map((l, i) => <p key={i} style={{ fontSize: 13, color: "#555", lineHeight: 1.75, marginBottom: 4 }}>{l}</p>)}
       </div>
     </section>
   );
