@@ -31,7 +31,7 @@ function Nav() {
     { label: "Philosophy", href: "#philosophy" },
     { label: "Systems", href: "#systems" },
     { label: "Method", href: "#method" },
-    { label: "Notes", href: "#notes" },
+    // { label: "Notes", href: "#notes" }, // hidden until more content
     { label: "About", href: "#about" },
     { label: "Contact", href: "#contact" },
   ];
@@ -733,7 +733,7 @@ export default function Portfolio() {
         <WhatIFix />
         <Systems />
         <Method />
-        <Notes />
+        {/* <Notes /> */}
         <About />
         <Contact />
       </main>
